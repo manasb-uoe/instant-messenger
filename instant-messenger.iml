@@ -30,5 +30,7 @@
     <orderEntry type="library" name="react" level="application" />
     <orderEntry type="library" name="babel" level="application" />
     <orderEntry type="library" name="sprintf" level="application" />
+    <orderEntry type="library" name="bootstrap" level="application" />
+    <orderEntry type="library" name="jquery-3.1.1.slim" level="application" />
   </component>
 </module>
