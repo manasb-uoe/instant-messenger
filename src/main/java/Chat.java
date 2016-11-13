@@ -1,3 +1,4 @@
+import org.eclipse.jetty.io.RuntimeIOException;
 import org.eclipse.jetty.websocket.api.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -67,8 +68,21 @@ public final class Chat {
         return new ArrayList<>(sessionUserMap.values());
     }
 
-    public void sendConnectedUsersListToUser(final Session session) throws IOException {
+    public void sendConnectedUsersListToUser(final Session session)  {
         final SocketMessage socketMessage = new ConnectedUsersSocketMessage(getConnectedUsers());
-        session.getRemote().sendString(socketMessage.toJson());
+        try {
+            session.getRemote().sendString(socketMessage.toJson());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void sendErrorToUser(final String error, final Session session) {
+        final SocketMessage socketMessage = new ErrorSocketMessage(error);
+        try {
+            session.getRemote().sendString(socketMessage.toJson());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -18,7 +18,7 @@ public class SocketMessage {
     }
 
     public enum MessageType {
-        CHAT_MESSAGE, CONNECTED_USERS
+        CHAT_MESSAGE, CONNECTED_USERS, ERROR
     }
 
     public MessageType getMessageType() {
