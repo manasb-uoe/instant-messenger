@@ -12,6 +12,18 @@ function setupWindowOnErrorHandler() {
     };
 }
 
+function createWebSocketConnection() {
+    return connection = new WebSocket("ws://localhost:4567/chat");
+}
+
+function setupWebSocketHandlers(connection) {
+    connection.onopen = function () {
+        console.log("Connection open");
+    }
+}
+
 //=====================
 
 setupWindowOnErrorHandler();
+let connection = createWebSocketConnection();
+setupWebSocketHandlers(connection);
