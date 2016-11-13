@@ -19,7 +19,11 @@ function createWebSocketConnection() {
 function setupWebSocketHandlers(connection) {
     connection.onopen = function () {
         console.log("Connection open");
-    }
+    };
+
+    connection.onmessage = function (message) {
+        console.log(JSON.parse(message.data));
+    };
 }
 
 //=====================

@@ -1,8 +1,10 @@
-import models.User;
 import org.eclipse.jetty.websocket.api.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
@@ -31,7 +33,7 @@ public final class Chat {
         return instance;
     }
 
-    public void addUser(Session session) throws Exception {
+    public void addUser(final Session session) throws Exception {
         final String username = "User " + currentUserNumber.getAndIncrement();
 
         if (doesUsernameAlreadyExist(username)) {
@@ -44,14 +46,14 @@ public final class Chat {
         log.info(username + " connected.");
     }
 
-    public void removeUser(Session session) {
+    public void removeUser(final Session session) {
         final Optional<User> userToRemove = Optional.of(sessionUserMap.get(session));
         userToRemove.ifPresent(user -> log.info(user.getUsername() + " disconnected."));
 
         sessionUserMap.remove(session);
     }
 
-    private boolean doesUsernameAlreadyExist(String username) {
+    private boolean doesUsernameAlreadyExist(final String username) {
         for (Map.Entry<Session, User> entry : sessionUserMap.entrySet()) {
             if (entry.getValue().getUsername().equals(username)) {
                 return true;
@@ -59,5 +61,14 @@ public final class Chat {
         }
 
         return false;
+    }
+
+    private List<User> getConnectedUsers() {
+        return new ArrayList<>(sessionUserMap.values());
+    }
+
+    public void sendConnectedUsersListToUser(final Session session) throws IOException {
+        final SocketMessage socketMessage = new ConnectedUsersSocketMessage(getConnectedUsers());
+        session.getRemote().sendString(socketMessage.toJson());
     }
 }

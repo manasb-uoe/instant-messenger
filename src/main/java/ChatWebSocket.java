@@ -18,6 +18,7 @@ public class ChatWebSocket {
     public void onConnect(Session session) {
         try {
             chat.addUser(session);
+            chat.sendConnectedUsersListToUser(session);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
         }
