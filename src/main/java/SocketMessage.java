@@ -1,5 +1,6 @@
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,5 +31,9 @@ public class SocketMessage {
         map.put("messageType", messageType.name());
         map.put("body", body);
         return Util.gson.toJson(map);
+    }
+
+    public static SocketMessage parse(String json) throws Exception {
+        return Util.gson.fromJson(json, SocketMessage.class);
     }
 }

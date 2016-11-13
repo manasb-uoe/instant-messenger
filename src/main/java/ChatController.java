@@ -1,4 +1,3 @@
-import org.eclipse.jetty.io.RuntimeIOException;
 import org.eclipse.jetty.websocket.api.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,21 +13,21 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * Created by manasb on 12-11-2016.
  */
-public final class Chat {
+public final class ChatController {
 
     private static final Logger log = LoggerFactory.getLogger(ChatWebSocket.class);
-    private static Chat instance;
+    private static ChatController instance;
     private final Map<Session, User> sessionUserMap;
     private final AtomicInteger currentUserNumber;
 
-    private Chat() {
+    private ChatController() {
         sessionUserMap = new ConcurrentHashMap<>();
         currentUserNumber = new AtomicInteger(1);
     }
 
-    public synchronized static Chat getInstance() {
+    public synchronized static ChatController getInstance() {
         if (instance == null) {
-            instance = new Chat();
+            instance = new ChatController();
         }
 
         return instance;
@@ -84,5 +83,15 @@ public final class Chat {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void broadcastMessage(final SocketMessage socketMessage) {
+        sessionUserMap.keySet().forEach(session -> {
+            try {
+                session.getRemote().sendString(socketMessage.toJson());
+            } catch (IOException e) {
+                log.error(e.getMessage(), e);
+            }
+        });
     }
 }
