@@ -2,3 +2,4 @@
 src/main/resources/
 src/public/node_modules/
 target/
+src/public/bundle/
