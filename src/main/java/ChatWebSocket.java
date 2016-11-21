@@ -1,3 +1,6 @@
+import models.socketmessages.ChatMessageSocketMessage;
+import models.socketmessages.MessageType;
+import models.socketmessages.SocketMessage;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;
@@ -35,17 +38,10 @@ public class ChatWebSocket {
 
     @OnWebSocketMessage
     public void onMessage(Session session, String message) {
-        try {
-            SocketMessage socketMessage = SocketMessage.parse(message);
-            if (socketMessage.getMessageType() == SocketMessage.MessageType.CHAT_MESSAGE) {
-                chatController.broadcastMessage(socketMessage);
-            } else {
-                throw new NotImplementedException();
-            }
-        } catch (Exception e) {
-            String error = "Cannot parse message sent by client: " + message;
-            chatController.sendErrorToUser(error, session);
-            log.error(error, e);
+        SocketMessage socketMessage = SocketMessage.parse(message);
+
+        if (socketMessage instanceof ChatMessageSocketMessage) {
+            chatController.broadcastMessage(socketMessage);
         }
     }
 }

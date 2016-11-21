@@ -1,3 +1,9 @@
+package models.socketmessages;
+
+import models.User;
+import models.socketmessages.MessageType;
+import models.socketmessages.SocketMessage;
+
 import java.util.List;
 
 /**
@@ -10,5 +16,9 @@ public final class ConnectedUsersSocketMessage extends SocketMessage {
     public ConnectedUsersSocketMessage(List<User> connectedUsers) {
         super(MessageType.CONNECTED_USERS, connectedUsers);
         this.connectedUsers = connectedUsers;
+    }
+
+    public List<User> getConnectedUsers() {
+        return connectedUsers;
     }
 }

@@ -1,3 +1,7 @@
+import models.socketmessages.ConnectedUsersSocketMessage;
+import models.socketmessages.ErrorSocketMessage;
+import models.socketmessages.SocketMessage;
+import models.User;
 import org.eclipse.jetty.websocket.api.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,7 +38,7 @@ public final class ChatController {
     }
 
     public void addUser(final Session session) throws Exception {
-        final String username = "User " + currentUserNumber.getAndIncrement();
+        final String username = "models.User " + currentUserNumber.getAndIncrement();
 
         if (doesUsernameAlreadyExist(username)) {
             throw new Exception("Another user with the same username already exists.");
