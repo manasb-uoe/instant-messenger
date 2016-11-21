@@ -1,5 +1,4 @@
 import models.socketmessages.ChatMessageSocketMessage;
-import models.socketmessages.MessageType;
 import models.socketmessages.SocketMessage;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
@@ -8,7 +7,6 @@ import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  * Created by manasb on 12-11-2016.
@@ -28,12 +26,13 @@ public class ChatWebSocket {
             log.error(e.getMessage(), e);
         }
 
-        chatController.sendConnectedUsersListToUser(session);
+        chatController.broadcastConnectedUsers();
     }
 
     @OnWebSocketClose
     public void onClose(Session session, int statusCode, String reason) {
         chatController.removeUser(session);
+        chatController.broadcastConnectedUsers();
     }
 
     @OnWebSocketMessage

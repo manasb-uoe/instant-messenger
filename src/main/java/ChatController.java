@@ -38,7 +38,7 @@ public final class ChatController {
     }
 
     public void addUser(final Session session) throws Exception {
-        final String username = "models.User " + currentUserNumber.getAndIncrement();
+        final String username = "User " + currentUserNumber.getAndIncrement();
 
         if (doesUsernameAlreadyExist(username)) {
             throw new Exception("Another user with the same username already exists.");
@@ -71,13 +71,16 @@ public final class ChatController {
         return new ArrayList<>(sessionUserMap.values());
     }
 
-    public void sendConnectedUsersListToUser(final Session session)  {
+    public void broadcastConnectedUsers()  {
         final SocketMessage socketMessage = new ConnectedUsersSocketMessage(getConnectedUsers());
-        try {
-            session.getRemote().sendString(socketMessage.toJson());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+
+        sessionUserMap.keySet().forEach(session -> {
+            try {
+                session.getRemote().sendString(socketMessage.toJson());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
     public void sendErrorToUser(final String error, final Session session) {

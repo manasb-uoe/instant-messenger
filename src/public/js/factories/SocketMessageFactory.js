@@ -11,7 +11,7 @@ class SocketMessageFactory {
         let chatMessage = new ChatMessage(user, message, Date.now());
         return JSON.stringify({
             messageType: MessageType.CHAT_MESSAGE,
-            body: chatMessage
+            data: chatMessage
         });
     }
 }

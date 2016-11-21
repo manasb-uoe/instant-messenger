@@ -4,7 +4,11 @@
 
 let SocketMessageFactory = require('./factories/SocketMessageFactory');
 let ChatMessage = require("./models/ChatMessage");
+let MessageType = require("./models/MessageType");
 let User = require("./models/User");
+let ChatApp = require("./react_components/chat_app");
+let ReactDom = require("react-dom");
+let EventBus = require("eventbusjs");
 
 class App {
 
@@ -29,12 +33,13 @@ class App {
 
     _setupWebSocketHandlers(connection) {
         connection.onopen = function () {
-            console.log("Connection open");
             connection.send(SocketMessageFactory.createChatMessage(new User("manasb"), "Hello world!"));
         };
 
         connection.onmessage = function (message) {
-            console.log(JSON.parse(message.data));
+            const data = JSON.parse(message.data);
+            console.log(data.messageType);
+            EventBus.dispatch(data.messageType, data);
         };
     }
 
@@ -48,4 +53,10 @@ class App {
 
 //==========================
 
-new App(4567).start();
+let app = new App(4567);
+app.start();
+
+ReactDom.render(
+    <ChatApp />,
+    document.getElementById("container")
+);
