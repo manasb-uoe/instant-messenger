@@ -4,9 +4,13 @@
   "description": "Instant messaging using web sockets.",
   "main": "App.js",
   "dependencies": {
-    "browserify": "^13.1.1"
+    "bootstrap": "^3.3.7",
+    "browserify": "^13.1.1",
+    "jquery": "^3.1.1",
+    "react": "^15.4.0",
+    "react-dom": "^15.4.0",
+    "sprintf-js": "^1.0.3"
   },
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "browserify js/App.js > bundle/bundle.js"
