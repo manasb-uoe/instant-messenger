@@ -6,7 +6,8 @@ let SocketMessageFactory = require('./factories/SocketMessageFactory');
 let ChatMessage = require("./models/ChatMessage");
 let MessageType = require("./models/MessageType");
 let User = require("./models/User");
-let ChatApp = require("./react_components/chat_app");
+let ConnectedUsersSidebar = require("./react_components/connected_users_sidebar");
+let Chat = require("./react_components/chat");
 let ReactDom = require("react-dom");
 let EventBus = require("eventbusjs");
 
@@ -57,6 +58,11 @@ let app = new App(4567);
 app.start();
 
 ReactDom.render(
-    <ChatApp />,
-    document.getElementById("container")
+    <ConnectedUsersSidebar />,
+    document.getElementById("connected-users-sidebar-container")
+);
+
+ReactDom.render(
+    <Chat />,
+    document.getElementById("chat-container")
 );
