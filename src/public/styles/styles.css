@@ -32,3 +32,27 @@ body {
     left: 300px;
     position: absolute;
 }
+
+.current-user {
+    font-weight: bold;
+}
+
+.message {
+    margin-bottom: 5px;
+    border: dashed orangered medium;
+    border-radius: 3px;
+    padding: 10px;
+    display: inline-block;
+}
+
+.message-body {
+    color: darkblue;
+}
+
+.message-author {
+
+}
+
+.message-timestamp {
+
+}

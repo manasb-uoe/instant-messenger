@@ -1,7 +1,9 @@
 import models.socketmessages.ConnectedUsersSocketMessage;
 import models.socketmessages.ErrorSocketMessage;
+import models.socketmessages.IdentitySocketMessage;
 import models.socketmessages.SocketMessage;
 import models.User;
+import org.eclipse.jetty.io.RuntimeIOException;
 import org.eclipse.jetty.websocket.api.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -100,5 +102,16 @@ public final class ChatController {
                 log.error(e.getMessage(), e);
             }
         });
+    }
+
+    public void sendIdentityToSession(final Session session) {
+        IdentitySocketMessage identitySocketMessage =
+                new IdentitySocketMessage(sessionUserMap.get(session));
+        try {
+            session.getRemote().sendString(identitySocketMessage.toJson());
+        } catch (IOException e) {
+            log.error(e.getMessage(), e);
+            throw new RuntimeException(e);
+        }
     }
 }

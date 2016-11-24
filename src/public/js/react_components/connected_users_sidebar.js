@@ -12,10 +12,11 @@ class ConnectedUsersSidebar extends React.Component {
 
         this.state = {
             connectedUsers: [],
-            currentUser: {username: "manas"}
+            currentUser: undefined
         };
 
         EventBus.addEventListener(MessageType.CONNECTED_USERS, this.onConnectedUsersMessage, this);
+        EventBus.addEventListener(MessageType.IDENTITY, this.onIdentityMessage, this);
     }
 
     onConnectedUsersMessage(message) {
@@ -24,10 +25,16 @@ class ConnectedUsersSidebar extends React.Component {
         });
     }
 
+    onIdentityMessage(message) {
+        this.setState({
+            currentUser: message.target.data
+        });
+    }
+
     render() {
         let listItems = [];
         this.state.connectedUsers.forEach((connectedUser, index) => {
-            if (connectedUser.username === this.state.currentUser.username) {
+            if (this.state.currentUser && this.state.currentUser.username === connectedUser.username) {
                 listItems.push(<li key={index} className="current-user">{connectedUser.username}</li>);
             } else {
                 listItems.push(<li key={index}>{connectedUser.username}</li>);

@@ -27,6 +27,7 @@ public class ChatWebSocket {
         }
 
         chatController.broadcastConnectedUsers();
+        chatController.sendIdentityToSession(session);
     }
 
     @OnWebSocketClose
@@ -37,10 +38,12 @@ public class ChatWebSocket {
 
     @OnWebSocketMessage
     public void onMessage(Session session, String message) {
+        log.info(message);
         SocketMessage socketMessage = SocketMessage.parse(message);
 
-        if (socketMessage instanceof ChatMessageSocketMessage) {
-            chatController.broadcastMessage(socketMessage);
+        switch (socketMessage.getMessageType()) {
+            case CHAT_MESSAGE:
+                chatController.broadcastMessage(socketMessage);
         }
     }
 }

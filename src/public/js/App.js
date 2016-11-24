@@ -34,7 +34,9 @@ class App {
 
     _setupWebSocketHandlers(connection) {
         connection.onopen = function () {
-            connection.send(SocketMessageFactory.createChatMessage(new User("manasb"), "Hello world!"));
+            var message = SocketMessageFactory.createChatMessage(new User("manasb"), "Hello world!");
+            console.log(message);
+            connection.send(message);
         };
 
         connection.onmessage = function (message) {
@@ -62,7 +64,7 @@ ReactDom.render(
     document.getElementById("connected-users-sidebar-container")
 );
 
-ReactDom.render(
-    <Chat />,
-    document.getElementById("chat-container")
-);
+// ReactDom.render(
+//     <Chat />,
+//     document.getElementById("chat-container")
+// );
