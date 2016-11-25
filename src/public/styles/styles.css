@@ -1,5 +1,5 @@
 body {
-    font: 14px "Century Gothic", Futura, sans-serif;
+    font: 14px "Century Gothic", Futura, sans-serif; margin-top: 40px;
 }
 
 #errors {
@@ -12,41 +12,44 @@ body {
 }
 
 #connected-users-sidebar {
-    display: inline-block;
-    padding: 10px;
-    border: solid medium black;
-    float: left;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 300px;
 }
 
 #chat {
-    display: inline-block;
-    padding: 10px;
-    border: solid medium black;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    left: 300px;
-    position: absolute;
 }
 
 .current-user {
     font-weight: bold;
 }
 
+.message-container-mine {
+    text-align: left;
+}
+
+.message-container-not-mine {
+    text-align: right;
+}
+
 .message {
     margin-bottom: 5px;
-    border: dashed orangered medium;
     border-radius: 3px;
     padding: 10px;
     display: inline-block;
 }
 
+.message-mine {
+    color: #3c763d;
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+}
+
+.message-not-mine {
+    color: #31708f;
+    background-color: #d9edf7;
+    border-color: #bce8f1
+}
+
 .message-body {
-    color: darkblue;
+    font-weight: bold;
 }
 
 .message-author {

@@ -5,16 +5,19 @@
 let React = require('react');
 let EventBus = require("eventbusjs");
 let MessageType = require("../models/MessageType");
+var classnames = require("classnames");
 
 class Chat extends React.Component {
     constructor() {
         super();
 
         this.state = {
-            chatMessages: []
+            chatMessages: [],
+            currentUser: undefined
         };
 
         EventBus.addEventListener(MessageType.CHAT_MESSAGE, this.onChatMessage, this);
+        EventBus.addEventListener(MessageType.IDENTITY, this.onIdentityMessage, this);
     }
 
     onChatMessage(message) {
@@ -23,22 +26,39 @@ class Chat extends React.Component {
         });
     }
 
+    onIdentityMessage(message) {
+        this.setState({
+            currentUser: message.target.data
+        });
+    }
+
     render() {
         let items = [];
         this.state.chatMessages.forEach((chatMessage, index) => {
+            let messageContainerClasses = classnames({
+                "message-container-mine": this.state.currentUser && this.state.currentUser.username === chatMessage.user.username,
+                "message-container-not-mine": this.state.currentUser && this.state.currentUser.username !== chatMessage.user.username
+            });
+            let messageClasses = classnames({
+                "message": true,
+                "message-mine": this.state.currentUser && this.state.currentUser.username === chatMessage.user.username,
+                "message-not-mine": this.state.currentUser && this.state.currentUser.username !== chatMessage.user.username
+            });
+
             items.push(
-                <div key={index} className="message">
-                    <div className="message-body">{chatMessage.message}</div>
-                    <div className="message-author">{chatMessage.user.username}</div>
-                    <div className="message-timestamp">{new Date(chatMessage.timestamp).toUTCString()}</div>
+                <div key={index} className={messageContainerClasses}>
+                    <div className={messageClasses}>
+                        <div className="message-body">{chatMessage.message}</div>
+                        <div className="message-author">{chatMessage.user.username}</div>
+                        <div className="message-timestamp">{new Date(chatMessage.timestamp).toUTCString()}</div>
+                    </div>
                 </div>
             );
         });
 
         return (
             <div id="chat">
-                <h4>Chat</h4>
-                <ul>{items}</ul>
+                {items}
             </div>
         );
     }
