@@ -4,7 +4,7 @@
 
 let React = require('react');
 let EventBus = require("eventbusjs");
-let MessageType = require("../models/MessageType");
+let MessageType = require("../domain/MessageType");
 let WebSocketHandler = require("../websocket_handler");
 let SocketMessageFactory = require("../factories/SocketMessageFactory");
 

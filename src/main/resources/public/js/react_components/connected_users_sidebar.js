@@ -3,7 +3,7 @@
  */
 
 let React = require("react");
-let MessageType = require("../models/MessageType");
+let MessageType = require("../domain/MessageType");
 let EventBus = require("eventbusjs");
 
 class ConnectedUsersSidebar extends React.Component {
