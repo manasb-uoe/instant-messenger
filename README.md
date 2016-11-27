@@ -10,4 +10,7 @@ Then navigate to the root directory and run:
 - `mvn package` to build jar file for the entire project.
 - `java -jar target/instant-messenger-1.0-jar-with-dependencies.jar` to start the server. 
 
+The application can then be accessed from the browser at the following URL: 
+`http://localhost:4567/index.html` 
+
 **Note:** Application config can be found in `src/main/resources/public/config.json`. 
