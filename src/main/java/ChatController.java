@@ -39,7 +39,7 @@ public final class ChatController {
         return instance;
     }
 
-    public void addUser(final Session session) throws Exception {
+    void addUser(final Session session) throws Exception {
         final String username = "User " + currentUserNumber.getAndIncrement();
 
         if (doesUsernameAlreadyExist(username)) {
@@ -52,11 +52,39 @@ public final class ChatController {
         log.info(username + " connected.");
     }
 
-    public void removeUser(final Session session) {
+    void removeUser(final Session session) {
         final Optional<User> userToRemove = Optional.of(sessionUserMap.get(session));
         userToRemove.ifPresent(user -> log.info(user.getUsername() + " disconnected."));
 
         sessionUserMap.remove(session);
+    }
+
+    void broadcastConnectedUsers()  {
+        broadcastMessage(new ConnectedUsersSocketMessage(getConnectedUsers()));
+    }
+
+    void sendErrorToUser(final String error, final Session session) {
+        sendMessage(session, new ErrorSocketMessage(error));
+    }
+
+    void broadcastMessage(final SocketMessage socketMessage) {
+        sessionUserMap.keySet().forEach(session -> {
+            sendMessage(session, socketMessage);
+        });
+    }
+
+    void sendIdentityToSession(final Session session) {
+        IdentitySocketMessage identitySocketMessage =
+                new IdentitySocketMessage(sessionUserMap.get(session));
+        sendMessage(session, identitySocketMessage);
+    }
+
+    private void sendMessage(final Session session, final SocketMessage socketMessage) {
+        try {
+            session.getRemote().sendString(socketMessage.toJson());
+        } catch (IOException e) {
+            log.error(e.getMessage(), e);
+        }
     }
 
     private boolean doesUsernameAlreadyExist(final String username) {
@@ -73,45 +101,4 @@ public final class ChatController {
         return new ArrayList<>(sessionUserMap.values());
     }
 
-    public void broadcastConnectedUsers()  {
-        final SocketMessage socketMessage = new ConnectedUsersSocketMessage(getConnectedUsers());
-
-        sessionUserMap.keySet().forEach(session -> {
-            try {
-                session.getRemote().sendString(socketMessage.toJson());
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
-    }
-
-    public void sendErrorToUser(final String error, final Session session) {
-        final SocketMessage socketMessage = new ErrorSocketMessage(error);
-        try {
-            session.getRemote().sendString(socketMessage.toJson());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void broadcastMessage(final SocketMessage socketMessage) {
-        sessionUserMap.keySet().forEach(session -> {
-            try {
-                session.getRemote().sendString(socketMessage.toJson());
-            } catch (IOException e) {
-                log.error(e.getMessage(), e);
-            }
-        });
-    }
-
-    public void sendIdentityToSession(final Session session) {
-        IdentitySocketMessage identitySocketMessage =
-                new IdentitySocketMessage(sessionUserMap.get(session));
-        try {
-            session.getRemote().sendString(identitySocketMessage.toJson());
-        } catch (IOException e) {
-            log.error(e.getMessage(), e);
-            throw new RuntimeException(e);
-        }
-    }
 }
