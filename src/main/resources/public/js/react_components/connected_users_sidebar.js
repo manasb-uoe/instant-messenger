@@ -35,12 +35,16 @@ class ConnectedUsersSidebar extends React.Component {
     render() {
         let listItems = [];
         this.state.connectedUsers.forEach((connectedUser, index) => {
+            let isCurrentUser = this.state.currentUser && this.state.currentUser.username === connectedUser.username;
+
             let userClassNames = classnames({
                 "user": true,
-                "current-user": this.state.currentUser && this.state.currentUser.username === connectedUser.username
+                "current-user": isCurrentUser
             });
 
-            listItems.push(<p key={index} className={userClassNames}>{connectedUser.username}</p>);
+            let usernameText = isCurrentUser ? connectedUser.username + " (you)" : connectedUser.username;
+
+            listItems.push(<p key={index} className={userClassNames}>{usernameText}</p>);
         });
 
         return (
