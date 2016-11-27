@@ -19,7 +19,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "browserify -t [ babelify --presets [ react ] ] js/App.js -o bundle/bundle.js",
-    "watchify": "watchify -t [ babelify --presets [ react ] ] js/App.js -o bundle/bundle.js -v",
+    "watchify": "watchify -t [ babelify --presets [ react ] ] js/App.js -o bundle/bundle.js -v"
   },
   "repository": {
     "type": "git",
