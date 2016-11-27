@@ -40,14 +40,11 @@ public class ConfigReader {
     }
 
     public Environment getEnvironment() {
-        stateCheck();
         return Environment.valueOf(fileContents.get("environment").getAsString());
     }
 
-    private void stateCheck() {
-        if (fileContents == null) {
-            throw new IllegalStateException("read() must be called before calling any getters");
-        }
+    public String getWebSocketEndpoint() {
+        return fileContents.get("websocket_endpoint").getAsString();
     }
 
     private JsonObject convertStringToJsonObject(String jsonString) {
