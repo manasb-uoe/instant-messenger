@@ -1,6 +1,15 @@
+/* COMMON */
+
+:root {
+    --primary-green:#3c763d;
+    --list-item-selection:#eee
+}
+
 body {
     font: 14px "Century Gothic", Futura, sans-serif; margin-top: 40px;
 }
+
+/* ERRORS */
 
 #errors {
     background: #c00;
@@ -11,51 +20,104 @@ body {
     white-space: pre-wrap;
 }
 
-#connected-users-sidebar {
+/* SIDEBAR */
+
+#sidebar-container {
+    position: fixed;
+    top: 0;
+    bottom:  0;
+    left: 0;
+    width: 200px;
+    border-right: solid lightgrey 2px;
 }
 
-#chat {
+.container-heading {
+    font-weight: bold;
+    width: 100%;
+    text-align: center;
+    padding: 15px;
+    text-transform: uppercase;
 }
 
-.current-user {
+#connected-users-container .user {
+    padding: 5px 15px;
+    margin: 0;
+}
+
+#connected-users-container .user:hover {
+    background-color: var(--list-item-selection);
+    cursor: pointer;
+}
+
+
+#connected-users-container .current-user {
+    color: var(--primary-green);
     font-weight: bold;
 }
 
-.message-container-mine {
+/* CHAT CONTAINER */
+
+#chat-container {
+    position: fixed;
+    top: 0;
+    left: 200px;
+    right: 0;
+    bottom: 70px;
+    overflow-y: auto;
+}
+
+#chat-messages-container {
+    padding: 0 15px;
+}
+
+#chat-messages-container .message-container-mine {
     text-align: left;
 }
 
-.message-container-not-mine {
+#chat-messages-container .message-container-not-mine {
     text-align: right;
 }
 
-.message {
+#chat-messages-container .message {
     margin-bottom: 5px;
     border-radius: 3px;
     padding: 10px;
     display: inline-block;
 }
 
-.message-mine {
+#chat-messages-container .message-mine {
     color: #3c763d;
     background-color: #dff0d8;
     border-color: #d6e9c6;
 }
 
-.message-not-mine {
+#chat-messages-container .message-not-mine {
     color: #31708f;
     background-color: #d9edf7;
-    border-color: #bce8f1
+    border-color: #bce8f1;
+    text-align: left;
 }
 
-.message-body {
+#chat-messages-container .message .message-body {
     font-weight: bold;
 }
 
-.message-author {
+#chat-messages-container .message .message-author {
 
 }
 
-.message-timestamp {
+#chat-messages-container .message .message-timestamp {
 
+}
+
+/* CHAT INPUT CONTAINER */
+
+#chat-input-container {
+    position: fixed;
+    left: 200px;
+    right: 0;
+    bottom: 0;
+    height: 70px;
+    text-align: center;
+    padding: 15px;
 }

@@ -5,6 +5,7 @@
 let React = require("react");
 let MessageType = require("../domain/MessageType");
 let EventBus = require("eventbusjs");
+var classnames = require("classnames");
 
 class ConnectedUsersSidebar extends React.Component {
     constructor() {
@@ -34,11 +35,12 @@ class ConnectedUsersSidebar extends React.Component {
     render() {
         let listItems = [];
         this.state.connectedUsers.forEach((connectedUser, index) => {
-            if (this.state.currentUser && this.state.currentUser.username === connectedUser.username) {
-                listItems.push(<p key={index} className="current-user">{connectedUser.username}</p>);
-            } else {
-                listItems.push(<p key={index}>{connectedUser.username}</p>);
-            }
+            let userClassNames = classnames({
+                "user": true,
+                "current-user": this.state.currentUser && this.state.currentUser.username === connectedUser.username
+            });
+
+            listItems.push(<p key={index} className={userClassNames}>{connectedUser.username}</p>);
         });
 
         return (

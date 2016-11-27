@@ -12,12 +12,12 @@ WebSocketHandler.init();
 
 ReactDom.render(
     <ConnectedUsersSidebar />,
-    document.getElementById("connected-users-sidebar-container")
+    document.getElementById("connected-users-container")
 );
 
 ReactDom.render(
     <Chat />,
-    document.getElementById("chat-container")
+    document.getElementById("chat-messages-container")
 );
 
 ReactDom.render(

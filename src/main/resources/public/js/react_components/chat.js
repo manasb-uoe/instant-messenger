@@ -57,9 +57,7 @@ class Chat extends React.Component {
         });
 
         return (
-            <div id="chat">
-                {items}
-            </div>
+            <div>{items}</div>
         );
     }
 }
