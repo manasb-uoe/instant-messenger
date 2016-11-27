@@ -18,7 +18,7 @@ public class ConfigReader {
     }
 
     private void read() throws Exception {
-        final String configFilePath = "public\\config.json";
+        final String configFilePath = "public/config.json";
         final InputStream inputStream = getClass().getClassLoader().getResourceAsStream(configFilePath);
         if (inputStream == null) {
             throw new FileNotFoundException(String.format("Could not find config file [%s]", configFilePath));
