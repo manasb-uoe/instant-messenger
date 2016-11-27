@@ -1,0 +1,34 @@
+{
+  "name": "instant-messenger",
+  "version": "1.0.0",
+  "description": "Instant messaging using web sockets.",
+  "main": "App.js",
+  "dependencies": {
+    "babel-preset-react": "^6.16.0",
+    "babelify": "^7.3.0",
+    "bootstrap": "^3.3.7",
+    "browserify": "^13.1.1",
+    "classnames": "^2.2.5",
+    "eventbusjs": "^0.1.0",
+    "jquery": "^3.1.1",
+    "react": "^15.4.0",
+    "react-dom": "^15.4.0",
+    "sprintf-js": "^1.0.3",
+    "watchify": "^3.7.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "browserify -t [ babelify --presets [ react ] ] js/App.js -o bundle/bundle.js",
+    "watchify": "watchify -t [ babelify --presets [ react ] ] js/App.js -o bundle/bundle.js -v",
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/enthusiast94/instant-messenger.git"
+  },
+  "author": "Manas Bajaj",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/enthusiast94/instant-messenger/issues"
+  },
+  "homepage": "https://github.com/enthusiast94/instant-messenger#readme"
+}
