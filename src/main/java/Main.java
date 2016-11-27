@@ -1,5 +1,5 @@
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import models.Environment;
+import utils.ConfigReader;
 
 import static spark.Spark.*;
 
@@ -9,14 +9,9 @@ import static spark.Spark.*;
 
 public class Main {
 
-    private static final Logger log = LoggerFactory.getLogger(Main.class);
-
-    public static void main(String[] args) {
-        if (args.length == 0) {
-            throw new RuntimeException("Environment type must be provided");
-        }
-
-        Environment environment = Environment.valueOf(args[0]);
+    public static void main(String[] args) throws Exception {
+        ConfigReader configReader = new ConfigReader();
+        Environment environment = configReader.getEnvironment();
 
         // If environment is DEV then static files are read from from an absolute path in order to
         // refresh static files.
@@ -24,17 +19,12 @@ public class Main {
             String projectDir = System.getProperty("user.dir");
             String staticDir = "\\src\\main\\resources\\public";
             staticFiles.externalLocation(projectDir + staticDir);
-            log.info(projectDir + staticDir);
         } else {
             staticFiles.location("/public");
         }
 
         webSocket("/chat", ChatWebSocket.class);
         init();
-    }
-
-    public enum Environment {
-        DEV, PROD
     }
 
 }
