@@ -24,6 +24,10 @@ class Chat extends React.Component {
         this.setState({
             chatMessages: this.state.chatMessages.concat(message.target.data)
         });
+
+        // Scroll to bottom of div
+        const chatContainer = document.getElementById("chat-container");
+        chatContainer.scrollTop = chatContainer.scrollHeight;
     }
 
     onIdentityMessage(message) {
