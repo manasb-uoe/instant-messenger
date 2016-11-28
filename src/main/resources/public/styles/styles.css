@@ -27,7 +27,7 @@ body {
     top: 0;
     bottom:  0;
     left: 0;
-    width: 200px;
+    width: 250px;
     border-right: solid lightgrey 2px;
 }
 
@@ -39,20 +39,35 @@ body {
     text-transform: uppercase;
 }
 
-#connected-users-container .user {
+#connected-users-container .user-container {
+    display: table;
     padding: 5px 15px;
     margin: 0;
+    width: 100%;
 }
 
-#connected-users-container .user:hover {
+#connected-users-container .user-container:hover {
     background-color: var(--list-item-selection);
-    cursor: pointer;
 }
 
+#connected-users-container .user {
+    display: table-cell;
+    vertical-align: middle;
+}
 
 #connected-users-container .current-user {
     color: var(--primary-green);
     font-weight: bold;
+}
+
+#connected-users-container .edit-button {
+    float: right;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+#connected-users-container .edit-button:focus {
+    outline: none;
 }
 
 /* CHAT CONTAINER */
@@ -60,7 +75,7 @@ body {
 #chat-container {
     position: fixed;
     top: 0;
-    left: 200px;
+    left: 250px;
     right: 0;
     bottom: 70px;
     overflow-y: auto;
@@ -114,7 +129,7 @@ body {
 
 #chat-input-container {
     position: fixed;
-    left: 200px;
+    left: 250px;
     right: 0;
     bottom: 0;
     height: 70px;

@@ -3,5 +3,6 @@
  */
 
 module.exports = Object.freeze({
-    SEND_NEW_MESSAGE: "send_new_message"
+    SEND_NEW_MESSAGE: 0,
+    EDIT_USERNAME: 1
 });

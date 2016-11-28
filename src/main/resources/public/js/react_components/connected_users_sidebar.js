@@ -5,7 +5,8 @@
 let React = require("react");
 let MessageType = require("../domain/MessageType");
 let EventBus = require("eventbusjs");
-var classnames = require("classnames");
+let EventBusClientEvents = require("../eventbus_client_events");
+let classnames = require("classnames");
 
 class ConnectedUsersSidebar extends React.Component {
     constructor() {
@@ -32,6 +33,12 @@ class ConnectedUsersSidebar extends React.Component {
         });
     }
 
+    onEditButtonClick(event, index) {
+        event.preventDefault();
+        const currentUsername = this.state.connectedUsers[index].username;
+        EventBus.dispatch(EventBusClientEvents.EDIT_USERNAME, currentUsername);
+    }
+
     render() {
         let listItems = [];
         this.state.connectedUsers.forEach((connectedUser, index) => {
@@ -44,7 +51,19 @@ class ConnectedUsersSidebar extends React.Component {
 
             let usernameText = isCurrentUser ? connectedUser.username + " (you)" : connectedUser.username;
 
-            listItems.push(<p key={index} className={userClassNames}>{usernameText}</p>);
+            const editButtonJsx = isCurrentUser ?
+                <button type="button" className="btn btn-sm btn-default edit-button"
+                      onClick={(event) => this.onEditButtonClick(event, index)}>
+                    <span className="glyphicon glyphicon-edit"/>
+                </button>
+                : undefined;
+
+            listItems.push(
+                <div key={index} className="user-container">
+                    <span className={userClassNames}>{usernameText}</span>
+                    {editButtonJsx}
+                </div>
+            );
         });
 
         return (

@@ -1,9 +1,8 @@
+import models.User;
 import models.socketmessages.ConnectedUsersSocketMessage;
 import models.socketmessages.ErrorSocketMessage;
 import models.socketmessages.IdentitySocketMessage;
 import models.socketmessages.SocketMessage;
-import models.User;
-import org.eclipse.jetty.io.RuntimeIOException;
 import org.eclipse.jetty.websocket.api.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,6 +49,24 @@ public final class ChatController {
         sessionUserMap.put(session, user);
 
         log.info(username + " connected.");
+    }
+
+    Session updateUsername(final String existingUsername, final String newUsername) throws Exception {
+        final Optional<Map.Entry<Session, User>> sessionUserEntryToUpdateOptional = sessionUserMap.entrySet().stream()
+                .filter(sessionUserEntry -> sessionUserEntry.getValue().getUsername().equals(existingUsername))
+                .findFirst();
+
+        if (!sessionUserEntryToUpdateOptional.isPresent()) {
+            throw new Exception(String.format("No user with username [%s] exists", existingUsername));
+        }
+
+        if (doesUsernameAlreadyExist(newUsername)) {
+            throw new Exception("Another user with the same username already exists.");
+        }
+
+        Map.Entry<Session, User> sessionUserEntryToUpdate = sessionUserEntryToUpdateOptional.get();
+        sessionUserEntryToUpdate.getValue().setUsername(newUsername);
+        return sessionUserEntryToUpdate.getKey();
     }
 
     void removeUser(final Session session) {
