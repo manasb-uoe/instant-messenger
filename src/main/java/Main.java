@@ -23,6 +23,7 @@ public class Main {
             staticFiles.location("/public");
         }
 
+        port(configReader.getPort());
         webSocket("/" + configReader.getWebSocketEndpoint(), ChatWebSocket.class);
         init();
     }

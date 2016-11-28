@@ -43,6 +43,10 @@ public class ConfigReader {
         return Environment.valueOf(fileContents.get("environment").getAsString());
     }
 
+    public int getPort() {
+        return fileContents.get("port").getAsInt();
+    }
+
     public String getWebSocketEndpoint() {
         return fileContents.get("websocket_endpoint").getAsString();
     }
