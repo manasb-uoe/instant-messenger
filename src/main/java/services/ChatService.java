@@ -1,3 +1,5 @@
+package services;
+
 import models.User;
 import models.socketmessages.ConnectedUsersSocketMessage;
 import models.socketmessages.ErrorSocketMessage;
@@ -20,10 +22,10 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public final class ChatService {
 
-    private static final Logger log = LoggerFactory.getLogger(ChatWebSocket.class);
+    private static final Logger log = LoggerFactory.getLogger(ChatService.class);
     private static ChatService instance;
-    private final Map<Session, User> sessionUserMap;
-    private final AtomicInteger currentUserNumber;
+    final Map<Session, User> sessionUserMap;
+    final AtomicInteger currentUserNumber;
 
     private ChatService() {
         sessionUserMap = new ConcurrentHashMap<>();
@@ -38,7 +40,7 @@ public final class ChatService {
         return instance;
     }
 
-    void addUser(final Session session) throws Exception {
+    public void addUser(final Session session) throws Exception {
         final String username = "User " + currentUserNumber.getAndIncrement();
 
         if (doesUsernameAlreadyExist(username)) {
@@ -51,7 +53,7 @@ public final class ChatService {
         log.info(username + " connected.");
     }
 
-    Session updateUsername(final String existingUsername, final String newUsername) throws Exception {
+    public Session updateUsername(final String existingUsername, final String newUsername) throws Exception {
         final Optional<Map.Entry<Session, User>> sessionUserEntryToUpdateOptional = sessionUserMap.entrySet().stream()
                 .filter(sessionUserEntry -> sessionUserEntry.getValue().getUsername().equals(existingUsername))
                 .findFirst();
@@ -69,28 +71,28 @@ public final class ChatService {
         return sessionUserEntryToUpdate.getKey();
     }
 
-    void removeUser(final Session session) {
+    public void removeUser(final Session session) {
         final Optional<User> userToRemove = Optional.of(sessionUserMap.get(session));
         userToRemove.ifPresent(user -> log.info(user.getUsername() + " disconnected."));
 
         sessionUserMap.remove(session);
     }
 
-    void broadcastConnectedUsers()  {
+    public void broadcastConnectedUsers()  {
         broadcastMessage(new ConnectedUsersSocketMessage(getConnectedUsers()));
     }
 
-    void sendErrorToUser(final String error, final Session session) {
+    public void sendErrorToUser(final String error, final Session session) {
         sendMessage(session, new ErrorSocketMessage(error));
     }
 
-    void broadcastMessage(final SocketMessage socketMessage) {
+    public void broadcastMessage(final SocketMessage socketMessage) {
         sessionUserMap.keySet().forEach(session -> {
             sendMessage(session, socketMessage);
         });
     }
 
-    void sendIdentityToSession(final Session session) {
+    public void sendIdentityToSession(final Session session) {
         IdentitySocketMessage identitySocketMessage =
                 new IdentitySocketMessage(sessionUserMap.get(session));
         sendMessage(session, identitySocketMessage);

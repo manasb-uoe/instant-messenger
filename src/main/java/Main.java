@@ -1,5 +1,6 @@
 import models.Environment;
 import org.eclipse.jetty.websocket.api.Session;
+import services.ChatService;
 import utils.ConfigReader;
 import utils.HttpResponseFactory;
 

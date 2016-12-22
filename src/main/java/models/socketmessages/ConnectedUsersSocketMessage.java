@@ -1,8 +1,6 @@
 package models.socketmessages;
 
 import models.User;
-import models.socketmessages.MessageType;
-import models.socketmessages.SocketMessage;
 
 import java.util.List;
 
@@ -18,7 +16,22 @@ public final class ConnectedUsersSocketMessage extends SocketMessage {
         this.connectedUsers = connectedUsers;
     }
 
-    public List<User> getConnectedUsers() {
+    public List<User> getCoōōnnectedUsers() {
         return connectedUsers;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ConnectedUsersSocketMessage that = (ConnectedUsersSocketMessage) o;
+
+        return connectedUsers != null ? connectedUsers.equals(that.connectedUsers) : that.connectedUsers == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return connectedUsers != null ? connectedUsers.hashCode() : 0;
     }
 }
