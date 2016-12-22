@@ -10,11 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -28,7 +24,7 @@ public final class ChatService {
     final AtomicInteger currentUserNumber;
 
     private ChatService() {
-        sessionUserMap = new ConcurrentHashMap<>();
+        sessionUserMap = Collections.synchronizedMap(new LinkedHashMap<>());
         currentUserNumber = new AtomicInteger(1);
     }
 
