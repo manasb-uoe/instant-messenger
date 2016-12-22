@@ -1,7 +1,9 @@
-# What is this about?
+[![Build Status](https://travis-ci.org/enthusiast94/instant-messenger.svg?branch=master)](https://travis-ci.org/enthusiast94/instant-messenger)
+
+# Instant Messenger
 Instant messenger application implemented using Spark (Websockets) and React.js
 
-# How to get started?
+## How to get started?
 Navigate to `src/main/resources/public` and run the following commands: 
 - `npm install` to download all npm dependencies.
 - `npm run build` to build javascript project into `bundle/bundle.js`.
