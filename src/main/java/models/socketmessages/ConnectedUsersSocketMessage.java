@@ -16,7 +16,7 @@ public final class ConnectedUsersSocketMessage extends SocketMessage {
         this.connectedUsers = connectedUsers;
     }
 
-    public List<User> getCoōōnnectedUsers() {
+    public List<User> getConnectedUsers() {
         return connectedUsers;
     }
 
