@@ -1,4 +1,3 @@
-import models.socketmessages.ChatMessageSocketMessage;
 import models.socketmessages.SocketMessage;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
@@ -14,26 +13,26 @@ import org.slf4j.LoggerFactory;
 @WebSocket
 public class ChatWebSocket {
 
-    private final ChatController chatController = ChatController.getInstance();
+    private final ChatService chatService = ChatService.getInstance();
     private static final Logger log = LoggerFactory.getLogger(ChatWebSocket.class);
 
     @OnWebSocketConnect
     public void onConnect(Session session) {
         try {
-            chatController.addUser(session);
+            chatService.addUser(session);
         } catch (Exception e) {
-            chatController.sendErrorToUser(e.getMessage(), session);
+            chatService.sendErrorToUser(e.getMessage(), session);
             log.error(e.getMessage(), e);
         }
 
-        chatController.broadcastConnectedUsers();
-        chatController.sendIdentityToSession(session);
+        chatService.broadcastConnectedUsers();
+        chatService.sendIdentityToSession(session);
     }
 
     @OnWebSocketClose
     public void onClose(Session session, int statusCode, String reason) {
-        chatController.removeUser(session);
-        chatController.broadcastConnectedUsers();
+        chatService.removeUser(session);
+        chatService.broadcastConnectedUsers();
     }
 
     @OnWebSocketMessage
@@ -43,7 +42,7 @@ public class ChatWebSocket {
 
         switch (socketMessage.getMessageType()) {
             case CHAT_MESSAGE:
-                chatController.broadcastMessage(socketMessage);
+                chatService.broadcastMessage(socketMessage);
         }
     }
 }

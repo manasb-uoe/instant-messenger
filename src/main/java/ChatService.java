@@ -18,21 +18,21 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * Created by manasb on 12-11-2016.
  */
-public final class ChatController {
+public final class ChatService {
 
     private static final Logger log = LoggerFactory.getLogger(ChatWebSocket.class);
-    private static ChatController instance;
+    private static ChatService instance;
     private final Map<Session, User> sessionUserMap;
     private final AtomicInteger currentUserNumber;
 
-    private ChatController() {
+    private ChatService() {
         sessionUserMap = new ConcurrentHashMap<>();
         currentUserNumber = new AtomicInteger(1);
     }
 
-    public synchronized static ChatController getInstance() {
+    public synchronized static ChatService getInstance() {
         if (instance == null) {
-            instance = new ChatController();
+            instance = new ChatService();
         }
 
         return instance;
