@@ -1,5 +1,0 @@
-{
-  "environment": "DEV",
-  "server_port": 4567,
-  "websocket_endpoint": "chat"
-}
