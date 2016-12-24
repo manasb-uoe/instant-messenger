@@ -18,19 +18,19 @@ public class Main {
         port(configService.getPort());
         setupWebSocket(configService.getWebSocketEndpoint());
         enableCORS();
-        setupApiEndpoints(configService, chatService);
+        setupApiEndpoints(chatService);
     }
 
     private static void setupWebSocket(String endpoint) {
         webSocket("/" + endpoint, ChatWebSocket.class);
     }
 
-    private static void setupApiEndpoints(final ConfigService configService, final ChatService chatService) {
+    private static void setupApiEndpoints(final ChatService chatService) {
         post("/edit-username", (request, response) -> {
             final String[] bodySplit = request.body().split(",");
 
             if (bodySplit.length != 2) {
-                return HttpResponseFactory.createBadRequestResponse("Body must be in the format: " +
+                return HttpResponseFactory.createBadRequestResponse(response, "Body must be in the format: " +
                         "existing_username,new_username");
             }
 
@@ -38,9 +38,9 @@ public class Main {
                 final Session session = chatService.updateUsername(bodySplit[0], bodySplit[1]);
                 chatService.sendIdentityToSession(session);
                 chatService.broadcastConnectedUsers();
-                return HttpResponseFactory.createOkResponse(null);
+                return HttpResponseFactory.createOkResponse(response, null);
             } catch (Exception e) {
-                return HttpResponseFactory.createBadRequestResponse(e.getMessage());
+                return HttpResponseFactory.createBadRequestResponse(response, e.getMessage());
             }
         });
     }
