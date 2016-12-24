@@ -3,18 +3,20 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
-import { AppComponent } from './app.component';
+import { RootComponent } from './components/root/root.component';
+import { SocketMessageService } from "./services/socket-message-service";
+import {ConfigService} from "./services/config-service";
 
 @NgModule({
   declarations: [
-    AppComponent
+    RootComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [ConfigService, SocketMessageService],
+  bootstrap: [RootComponent]
 })
 export class AppModule { }
