@@ -1,4 +1,4 @@
-package utils;
+package services;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -9,11 +9,11 @@ import java.io.*;
 /**
  * Created by manasb on 27-11-2016.
  */
-public class ConfigReader {
+public class ConfigService {
 
     private JsonObject fileContents;
 
-    public ConfigReader() throws Exception {
+    public ConfigService() throws Exception {
         read();
     }
 

@@ -1,6 +1,6 @@
 import org.eclipse.jetty.websocket.api.Session;
 import services.ChatService;
-import utils.ConfigReader;
+import services.ConfigService;
 import utils.HttpResponseFactory;
 
 import static spark.Spark.*;
@@ -12,20 +12,20 @@ import static spark.Spark.*;
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        final ConfigReader configReader = new ConfigReader();
+        final ConfigService configService = new ConfigService();
         final ChatService chatService = ChatService.getInstance();
 
-        port(configReader.getPort());
-        setupWebSocket(configReader.getWebSocketEndpoint());
+        port(configService.getPort());
+        setupWebSocket(configService.getWebSocketEndpoint());
         enableCORS();
-        setupApiEndpoints(configReader, chatService);
+        setupApiEndpoints(configService, chatService);
     }
 
     private static void setupWebSocket(String endpoint) {
         webSocket("/" + endpoint, ChatWebSocket.class);
     }
 
-    private static void setupApiEndpoints(final ConfigReader configReader, final ChatService chatService) {
+    private static void setupApiEndpoints(final ConfigService configService, final ChatService chatService) {
         post("/edit-username", (request, response) -> {
             final String[] bodySplit = request.body().split(",");
 
