@@ -18,7 +18,7 @@ public class ConfigReader {
     }
 
     private void read() throws Exception {
-        final String configFilePath = "public/config.json";
+        final String configFilePath = "config.json";
         final InputStream inputStream = getClass().getClassLoader().getResourceAsStream(configFilePath);
         if (inputStream == null) {
             throw new FileNotFoundException(String.format("Could not find config file [%s]", configFilePath));
@@ -44,7 +44,7 @@ public class ConfigReader {
     }
 
     public int getPort() {
-        return fileContents.get("port").getAsInt();
+        return fileContents.get("server_port").getAsInt();
     }
 
     public String getWebSocketEndpoint() {

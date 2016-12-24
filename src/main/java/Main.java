@@ -1,4 +1,3 @@
-import models.Environment;
 import org.eclipse.jetty.websocket.api.Session;
 import services.ChatService;
 import utils.ConfigReader;
@@ -14,32 +13,19 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         final ConfigReader configReader = new ConfigReader();
-        final Environment environment = configReader.getEnvironment();
         final ChatService chatService = ChatService.getInstance();
 
-        setupStaticFilesLocation(environment);
         port(configReader.getPort());
         setupWebSocket(configReader.getWebSocketEndpoint());
-        setupEndpoints(chatService);
-    }
-
-    private static void setupStaticFilesLocation(final Environment environment) {
-        // If environment is DEV then static files are read from from an absolute path in order to
-        // refresh static files.
-        if (environment == Environment.DEV) {
-            final String projectDir = System.getProperty("user.dir");
-            final String staticDir = "\\src\\main\\resources\\public";
-            staticFiles.externalLocation(projectDir + staticDir);
-        } else {
-            staticFiles.location("/public");
-        }
+        enableCORS();
+        setupApiEndpoints(configReader, chatService);
     }
 
     private static void setupWebSocket(String endpoint) {
         webSocket("/" + endpoint, ChatWebSocket.class);
     }
 
-    private static void setupEndpoints(final ChatService chatService) {
+    private static void setupApiEndpoints(final ConfigReader configReader, final ChatService chatService) {
         post("/edit-username", (request, response) -> {
             final String[] bodySplit = request.body().split(",");
 
@@ -56,6 +42,34 @@ public class Main {
             } catch (Exception e) {
                 return HttpResponseFactory.createBadRequestResponse(e.getMessage());
             }
+        });
+    }
+
+    // Enables CORS on requests. This method is an initialization method and should be called once.
+    private static void enableCORS() {
+
+        options("/*", (request, response) -> {
+
+            String accessControlRequestHeaders = request.headers("Access-Control-Request-Headers");
+            if (accessControlRequestHeaders != null) {
+                response.header("Access-Control-Allow-Headers", accessControlRequestHeaders);
+            }
+
+            String accessControlRequestMethod = request.headers("Access-Control-Request-Method");
+            if (accessControlRequestMethod != null) {
+                response.header("Access-Control-Allow-Methods", accessControlRequestMethod);
+            }
+
+            return "OK";
+        });
+
+        before((request, response) -> {
+            response.header("Access-Control-Allow-Origin", "*");
+            response.header("Access-Control-Request-Method", "GET,POST");
+            response.header("Access-Control-Allow-Headers",
+                    "Content-Type,Authorization,X-Requested-With,Content-Length,Accept,Origin");
+
+            response.type("application/json");
         });
     }
 }
