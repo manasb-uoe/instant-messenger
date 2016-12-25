@@ -15,6 +15,10 @@
   text-align: right;
 }
 
+.message-container-system {
+  text-align: left;
+}
+
 .message {
   margin-bottom: 5px;
   border-radius: 3px;
@@ -32,7 +36,12 @@
   color: #31708f;
   background-color: #d9edf7;
   border-color: #bce8f1;
-  text-align: left;
+}
+
+.message-system {
+  background-color: #fcf8e3;
+  border-color: #faf2cc;
+  color: #8a6d3b;
 }
 
 .message .username {

@@ -1,10 +1,9 @@
 package services;
 
+import models.ChatMessage;
+import models.MessageSource;
 import models.User;
-import models.socketmessages.ConnectedUsersSocketMessage;
-import models.socketmessages.ErrorSocketMessage;
-import models.socketmessages.IdentitySocketMessage;
-import models.socketmessages.SocketMessage;
+import models.socketmessages.*;
 import org.eclipse.jetty.websocket.api.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +21,7 @@ public final class ChatService {
     private static ChatService instance;
     final Map<Session, User> sessionUserMap;
     final AtomicInteger currentUserNumber;
+    private final User systemUser = new User("System");
 
     private ChatService() {
         sessionUserMap = Collections.synchronizedMap(new LinkedHashMap<>());
@@ -36,7 +36,7 @@ public final class ChatService {
         return instance;
     }
 
-    public void addUser(final Session session) throws Exception {
+    public User addUser(final Session session) throws Exception {
         final String username = "User " + currentUserNumber.getAndIncrement();
 
         if (doesUsernameAlreadyExist(username)) {
@@ -47,6 +47,8 @@ public final class ChatService {
         sessionUserMap.put(session, user);
 
         log.info(username + " connected.");
+
+        return user;
     }
 
     public Session updateUsername(final String existingUsername, final String newUsername) throws Exception {
@@ -67,11 +69,10 @@ public final class ChatService {
         return sessionUserEntryToUpdate.getKey();
     }
 
-    public void removeUser(final Session session) {
-        final Optional<User> userToRemove = Optional.of(sessionUserMap.get(session));
-        userToRemove.ifPresent(user -> log.info(user.getUsername() + " disconnected."));
-
-        sessionUserMap.remove(session);
+    public Optional<User> removeUser(final Session session) {
+        final Optional<User> removedUserOptional = Optional.of(sessionUserMap.remove(session));
+        removedUserOptional.ifPresent(user -> log.info(user.getUsername() + " disconnected."));
+        return removedUserOptional;
     }
 
     public void broadcastConnectedUsers()  {
@@ -92,6 +93,24 @@ public final class ChatService {
         IdentitySocketMessage identitySocketMessage =
                 new IdentitySocketMessage(sessionUserMap.get(session));
         sendMessage(session, identitySocketMessage);
+    }
+
+    public void broadcastUserConnectedSystemMessage(final User user) {
+        final ChatMessage chatMessage = new ChatMessage(
+                MessageSource.SYSTEM, systemUser,
+                user.getUsername() + " has joined the chat.",
+                System.currentTimeMillis()
+        );
+        broadcastMessage(new ChatMessageSocketMessage(chatMessage));
+    }
+
+    public void broadcastUserDisconnectedSystemMessage(final User user) {
+        final ChatMessage chatMessage = new ChatMessage(
+                MessageSource.SYSTEM, systemUser,
+                user.getUsername() + " has left the chat.",
+                System.currentTimeMillis()
+        );
+        broadcastMessage(new ChatMessageSocketMessage(chatMessage));
     }
 
     private void sendMessage(final Session session, final SocketMessage socketMessage) {

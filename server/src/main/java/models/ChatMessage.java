@@ -5,22 +5,28 @@ package models;
  */
 public class ChatMessage {
 
-    private final User source;
-    private final String message;
+    private final MessageSource source;
+    private final User user;
+    private final String messageText;
     private final long timestamp;
 
-    public ChatMessage(User source, String message, long timestamp) {
+    public ChatMessage(MessageSource source, User user, String messageText, long timestamp) {
         this.source = source;
-        this.message = message;
+        this.user = user;
+        this.messageText = messageText;
         this.timestamp = timestamp;
     }
 
-    public User getSource() {
+    public MessageSource getSource() {
         return source;
     }
 
-    public String getMessage() {
-        return message;
+    public User getUser() {
+        return user;
+    }
+
+    public String getMessageText() {
+        return messageText;
     }
 
     public long getTimestamp() {

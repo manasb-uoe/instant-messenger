@@ -1,9 +1,15 @@
 <div id="messages-container">
   <div *ngFor="let chatMessage of chatMessages">
-    <div class="message-container" [class.message-container-self]="isCurrentUser(chatMessage.user)"
-         [class.message-container-not-self]="!isCurrentUser(chatMessage.user)">
-      <div class="message" [class.message-self]="isCurrentUser(chatMessage.user)"
-           [class.message-not-self]="!isCurrentUser(chatMessage.user)">
+    <div class="message-container"
+         [class.message-container-self]="isCurrentUser(chatMessage.user) && !isSystemMessage(chatMessage)"
+         [class.message-container-not-self]="!isCurrentUser(chatMessage.user) && !isSystemMessage(chatMessage)"
+         [class.message-container-system]="isSystemMessage(chatMessage)"
+    >
+      <div class="message"
+           [class.message-self]="isCurrentUser(chatMessage.user) && !isSystemMessage(chatMessage)"
+           [class.message-not-self]="!isCurrentUser(chatMessage.user) && !isSystemMessage(chatMessage)"
+           [class.message-system]="isSystemMessage(chatMessage)"
+      >
         <div class="username-timestamp-wrapper">
           <div class="username d-inline-block">{{chatMessage.user.username}}</div>
           <div class="username-timestamp-separator d-inline-block"> - </div>

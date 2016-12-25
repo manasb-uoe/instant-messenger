@@ -9,7 +9,7 @@ public class ChatMessageSocketMessage extends SocketMessage {
 
     private ChatMessage chatMessage;
 
-    public ChatMessageSocketMessage(MessageType messageType, ChatMessage chatMessage) {
+    public ChatMessageSocketMessage(ChatMessage chatMessage) {
         super(MessageType.CHAT_MESSAGE, chatMessage);
     }
 

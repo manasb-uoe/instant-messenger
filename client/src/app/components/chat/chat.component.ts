@@ -6,6 +6,7 @@ import {ChatMessage} from "../../domain/chat-message";
 import {User} from "../../domain/user";
 import {SocketMessageService} from "../../services/socket-message-service";
 import {MessageFactory} from "../../domain/message-factory";
+import {MessageSource} from "../../domain/message-source";
 
 @Component({
   selector: 'chat',
@@ -37,6 +38,10 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 
   public isCurrentUser(user: User) {
     return this.currentUser && this.currentUser.username === user.username;
+  }
+
+  public isSystemMessage(chatMessage: ChatMessage) {
+    return chatMessage.source === MessageSource.SYSTEM;
   }
 
   public onSendButtonClick(event: Event): void {

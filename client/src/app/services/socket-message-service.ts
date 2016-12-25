@@ -7,6 +7,7 @@ import {WebSocketWrapper} from "../websocket/websocket-wrapper";
 import {IWebSocketEventHandlers} from "../websocket/websocket-event-handlers";
 import {MessageType} from "../domain/message-type";
 import {ChatMessage} from "../domain/chat-message";
+import {MessageSource} from "../domain/message-source";
 
 @Injectable()
 export class SocketMessageService implements IWebSocketEventHandlers{
@@ -39,6 +40,8 @@ export class SocketMessageService implements IWebSocketEventHandlers{
         this.identity$.emit(message.data);
         break;
       case MessageType[MessageType.CHAT_MESSAGE]:
+        // Convert string to enum before emitting
+        message.data.source = MessageSource[message.data.source];
         this.chatMessages$.emit(message.data);
         break;
       default:

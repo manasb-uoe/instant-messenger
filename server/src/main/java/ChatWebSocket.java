@@ -1,3 +1,4 @@
+import models.User;
 import models.socketmessages.SocketMessage;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
@@ -7,6 +8,8 @@ import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import services.ChatService;
+
+import java.util.Optional;
 
 /**
  * Created by manasb on 12-11-2016.
@@ -20,20 +23,23 @@ public class ChatWebSocket {
     @OnWebSocketConnect
     public void onConnect(Session session) {
         try {
-            chatService.addUser(session);
+            final User newUser = chatService.addUser(session);
+            chatService.broadcastConnectedUsers();
+            chatService.sendIdentityToSession(session);
+            chatService.broadcastUserConnectedSystemMessage(newUser);
         } catch (Exception e) {
             chatService.sendErrorToUser(e.getMessage(), session);
             log.error(e.getMessage(), e);
         }
-
-        chatService.broadcastConnectedUsers();
-        chatService.sendIdentityToSession(session);
     }
 
     @OnWebSocketClose
     public void onClose(Session session, int statusCode, String reason) {
-        chatService.removeUser(session);
-        chatService.broadcastConnectedUsers();
+        Optional<User> removedUserOptional = chatService.removeUser(session);
+        removedUserOptional.ifPresent(user -> {
+            chatService.broadcastConnectedUsers();
+            chatService.broadcastUserDisconnectedSystemMessage(user);
+        });
     }
 
     @OnWebSocketMessage
