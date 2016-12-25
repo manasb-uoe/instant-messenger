@@ -1,25 +1,35 @@
 package models.socketmessages;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
+import models.ChatMessage;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import utils.Util;
 
+import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Created by manasb on 13-11-2016.
  */
-public class SocketMessage {
+public class SocketMessage<T> {
 
     private final MessageType messageType;
-    private final Object data;
+    private final T data;
 
-    public SocketMessage(MessageType messageType, Object data) {
+    public SocketMessage(MessageType messageType, T data) {
         this.messageType = messageType;
         this.data = data;
     }
 
     public final MessageType getMessageType() {
         return messageType;
+    }
+
+    public final T getData() {
+        return data;
     }
 
     public final String toJson() {
@@ -29,7 +39,20 @@ public class SocketMessage {
         return Util.gson.toJson(map);
     }
 
-    public static SocketMessage parse(String json) {
-        return Util.gson.fromJson(json, SocketMessage.class);
+    public static SocketMessage fromJson(String json) {
+        final JsonParser jsonParser = new JsonParser();
+        final JsonObject jsonObject = jsonParser.parse(json).getAsJsonObject();;
+        final MessageType messageType = MessageType.valueOf(jsonObject.get("messageType").getAsString());
+        Type type;
+
+        switch (messageType) {
+            case CHAT_MESSAGE:
+                type = new TypeToken<SocketMessage<ChatMessage>>() {}.getType();
+                break;
+            default:
+                throw new NotImplementedException();
+        }
+
+        return Util.gson.fromJson(json, type);
     }
 }

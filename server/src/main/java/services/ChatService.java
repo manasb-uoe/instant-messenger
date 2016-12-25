@@ -76,11 +76,11 @@ public final class ChatService {
     }
 
     public void broadcastConnectedUsers()  {
-        broadcastMessage(new ConnectedUsersSocketMessage(getConnectedUsers()));
+        broadcastMessage(SocketMessageFactory.createConnectedUsersMessage(getConnectedUsers()));
     }
 
     public void sendErrorToUser(final String error, final Session session) {
-        sendMessage(session, new ErrorSocketMessage(error));
+        sendMessage(session, SocketMessageFactory.createErrorMessage(error));
     }
 
     public void broadcastMessage(final SocketMessage socketMessage) {
@@ -90,9 +90,8 @@ public final class ChatService {
     }
 
     public void sendIdentityToSession(final Session session) {
-        IdentitySocketMessage identitySocketMessage =
-                new IdentitySocketMessage(sessionUserMap.get(session));
-        sendMessage(session, identitySocketMessage);
+        final User user = sessionUserMap.get(session);
+        sendMessage(session, SocketMessageFactory.createIdentityMessage(user));
     }
 
     public void broadcastUserConnectedSystemMessage(final User user) {
@@ -101,7 +100,7 @@ public final class ChatService {
                 user.getUsername() + " has joined the chat.",
                 System.currentTimeMillis()
         );
-        broadcastMessage(new ChatMessageSocketMessage(chatMessage));
+        broadcastMessage(SocketMessageFactory.createChatMessage(chatMessage));
     }
 
     public void broadcastUserDisconnectedSystemMessage(final User user) {
@@ -110,7 +109,7 @@ public final class ChatService {
                 user.getUsername() + " has left the chat.",
                 System.currentTimeMillis()
         );
-        broadcastMessage(new ChatMessageSocketMessage(chatMessage));
+        broadcastMessage(SocketMessageFactory.createChatMessage(chatMessage));
     }
 
     private void sendMessage(final Session session, final SocketMessage socketMessage) {

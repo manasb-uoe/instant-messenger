@@ -1,3 +1,4 @@
+import models.ChatMessage;
 import models.User;
 import models.socketmessages.SocketMessage;
 import org.eclipse.jetty.websocket.api.Session;
@@ -45,7 +46,7 @@ public class ChatWebSocket {
     @OnWebSocketMessage
     public void onMessage(Session session, String message) {
         log.info(message);
-        SocketMessage socketMessage = SocketMessage.parse(message);
+        SocketMessage socketMessage = SocketMessage.fromJson(message);
 
         switch (socketMessage.getMessageType()) {
             case CHAT_MESSAGE:

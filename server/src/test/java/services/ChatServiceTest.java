@@ -1,24 +1,26 @@
 package services;
 
+import models.ChatMessage;
+import models.MessageSource;
 import models.User;
-import models.socketmessages.ConnectedUsersSocketMessage;
-import models.socketmessages.ErrorSocketMessage;
-import models.socketmessages.IdentitySocketMessage;
-import models.socketmessages.SocketMessage;
+import models.socketmessages.*;
 import org.eclipse.jetty.websocket.api.RemoteEndpoint;
 import org.eclipse.jetty.websocket.api.Session;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.mockito.ArgumentCaptor;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
+import static java.lang.Math.abs;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.Matchers.lessThan;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 /**
@@ -63,8 +65,15 @@ public class ChatServiceTest {
     public void shouldRemoveUser() throws Exception {
         unitUnderTest.addUser(mockSessionOne);
         unitUnderTest.addUser(mockSessionTwo);
-        unitUnderTest.removeUser(mockSessionOne);
 
+        final Optional<User> removedUserOptional = unitUnderTest.removeUser(mockSessionOne);
+
+        if (!removedUserOptional.isPresent()) {
+            fail("User should not be null");
+            return;
+        }
+
+        assertThat(removedUserOptional.get().getUsername(), is("User 1"));
         assertThat(unitUnderTest.sessionUserMap.size(), is(1));
         assertFalse(unitUnderTest.sessionUserMap.containsKey(mockSessionOne));
     }
@@ -76,7 +85,8 @@ public class ChatServiceTest {
         unitUnderTest.broadcastConnectedUsers();
 
         final List<User> connectedUsers = Arrays.asList(new User("User 1"), new User("User 2"));
-        final SocketMessage connectedUsersSocketMessage = new ConnectedUsersSocketMessage(connectedUsers);
+        final SocketMessage<List<User>> connectedUsersSocketMessage =
+                SocketMessageFactory.createConnectedUsersMessage(connectedUsers);
         verify(mockRemoteOne).sendString(connectedUsersSocketMessage.toJson());
         verify(mockRemoteTwo).sendString(connectedUsersSocketMessage.toJson());
     }
@@ -85,7 +95,7 @@ public class ChatServiceTest {
     public void shouldSendErrorToUser() throws IOException {
         unitUnderTest.sendErrorToUser("Error", mockSessionOne);
 
-        final SocketMessage errorSocketMessage = new ErrorSocketMessage("Error");
+        final SocketMessage<String> errorSocketMessage = SocketMessageFactory.createErrorMessage("Error");
         verify(mockRemoteOne).sendString(errorSocketMessage.toJson());
     }
 
@@ -94,8 +104,69 @@ public class ChatServiceTest {
         unitUnderTest.addUser(mockSessionOne);
         unitUnderTest.sendIdentityToSession(mockSessionOne);
 
-        final SocketMessage identitySocketMessage = new IdentitySocketMessage(new User("User 1"));
+        final SocketMessage<User> identitySocketMessage =
+                SocketMessageFactory.createIdentityMessage(new User("User 1"));
         verify(mockRemoteOne).sendString(identitySocketMessage.toJson());
+    }
+
+    @Test
+    public void shouldBroadcastUserConnectedSystemMessage() throws Exception {
+        final User user = unitUnderTest.addUser(mockSessionOne);
+        unitUnderTest.broadcastUserConnectedSystemMessage(user);
+
+        final ChatMessage expectedChatMessage = new ChatMessage(
+                MessageSource.SYSTEM,
+                new User("System"),
+                user.getUsername() + " has joined the chat.",
+                System.currentTimeMillis()
+        );
+
+        final ArgumentCaptor<String> argumentCaptor = ArgumentCaptor.forClass(String.class);
+        verify(mockRemoteOne).sendString(argumentCaptor.capture());
+        final String actual = argumentCaptor.getValue();
+        final SocketMessage actualChatSocketMessage = SocketMessage.fromJson(actual);
+        final ChatMessage actualChatMessage = (ChatMessage) actualChatSocketMessage.getData();
+
+        assertThat(actualChatSocketMessage.getMessageType(), is(MessageType.CHAT_MESSAGE));
+        assertThat(actualChatMessage.getMessageText(), is(expectedChatMessage.getMessageText()));
+        assertThat(actualChatMessage.getSource(), is(expectedChatMessage.getSource()));
+        assertThat(actualChatMessage.getUser(), is(expectedChatMessage.getUser()));
+        assertTrue(abs(actualChatMessage.getTimestamp() - expectedChatMessage.getTimestamp()) <= 1000);
+    }
+
+    @Test
+    public void shouldBroadcastUserDisconnectedSystemMessage() throws Exception {
+        unitUnderTest.addUser(mockSessionOne);
+        unitUnderTest.addUser(mockSessionTwo);
+
+        Optional<User> removedUserOptional = unitUnderTest.removeUser(mockSessionOne);
+
+        if (!removedUserOptional.isPresent()) {
+            fail("User should not be null");
+            return;
+        }
+
+        final User removedUser = removedUserOptional.get();
+        unitUnderTest.broadcastUserDisconnectedSystemMessage(removedUser);
+
+        final ChatMessage expectedChatMessage = new ChatMessage(
+                MessageSource.SYSTEM,
+                new User("System"),
+                removedUser.getUsername() + " has left the chat.",
+                System.currentTimeMillis()
+        );
+
+        final ArgumentCaptor<String> argumentCaptor = ArgumentCaptor.forClass(String.class);
+        verify(mockRemoteTwo).sendString(argumentCaptor.capture());
+        final String actual = argumentCaptor.getValue();
+        final SocketMessage actualChatSocketMessage = SocketMessage.fromJson(actual);
+        final ChatMessage actualChatMessage = (ChatMessage) actualChatSocketMessage.getData();
+
+        assertThat(actualChatSocketMessage.getMessageType(), is(MessageType.CHAT_MESSAGE));
+        assertThat(actualChatMessage.getMessageText(), is(expectedChatMessage.getMessageText()));
+        assertThat(actualChatMessage.getSource(), is(expectedChatMessage.getSource()));
+        assertThat(actualChatMessage.getUser(), is(expectedChatMessage.getUser()));
+        assertTrue(abs(actualChatMessage.getTimestamp() - expectedChatMessage.getTimestamp()) <= 1000);
     }
 
     @Test
