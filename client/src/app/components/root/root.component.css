@@ -5,12 +5,12 @@
   overflow-y: auto;
 }
 
-.sidebar {
+#sidebar {
   width: 20%;
   border-right: solid lightgrey 1px;
 }
 
-.main {
+#main {
   width: 80%;
   left: 20%;
 }

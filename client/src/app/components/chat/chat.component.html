@@ -1,0 +1,25 @@
+<div id="messages-container">
+  <div *ngFor="let chatMessage of chatMessages">
+    <div class="message-container" [class.message-container-self]="isCurrentUser(chatMessage.user)"
+         [class.message-container-not-self]="!isCurrentUser(chatMessage.user)">
+      <div class="message" [class.message-self]="isCurrentUser(chatMessage.user)"
+           [class.message-not-self]="!isCurrentUser(chatMessage.user)">
+        <div class="username-timestamp-wrapper">
+          <div class="username d-inline-block">{{chatMessage.user.username}}</div>
+          <div class="username-timestamp-separator d-inline-block"> - </div>
+          <div class="timestamp d-inline-block">{{ convertTimeStampToDate(chatMessage.timestamp) | amCalendar }}</div>
+        </div>
+        <div class="body">{{chatMessage.messageText}}</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="message-input-container">
+  <div class="input-group message-input-group">
+    <input [(ngModel)]="chatInputText" (keypress)="onInputKeyPress($event)" type="text" class="form-control" placeholder="Type your message here"/>
+    <span class="input-group-btn">
+      <button (click)="onSendButtonClick($event)" class="btn btn-default" type="button">Send</button>
+    </span>
+  </div>
+</div>

@@ -15,10 +15,6 @@ export class WebSocketWrapper {
   }
 
   public setEventHandlers(webSocketHandlers: IWebSocketEventHandlers) {
-    // this.webSocket.onmessage = function (message) {
-    //   const data = JSON.parse(message.data);
-    //   EventBus.dispatch(data.messageType, data);
-    // };
     this.webSocket.onopen = (event) => webSocketHandlers.onSocketOpen();
     this.webSocket.onclose = (event) => webSocketHandlers.onSocketClose();
     this.webSocket.onmessage = (message) => webSocketHandlers.onSocketMessage(message);

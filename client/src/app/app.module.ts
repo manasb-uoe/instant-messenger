@@ -7,16 +7,20 @@ import { RootComponent } from './components/root/root.component';
 import { SocketMessageService } from "./services/socket-message-service";
 import { ConfigService } from "./services/config-service";
 import { ConnectedUsersComponent } from "./components/connected-users/connected-users.component";
+import { ChatComponent } from "./components/chat/chat.component";
+import { MomentModule } from "angular2-moment";
 
 @NgModule({
   declarations: [
     RootComponent,
-    ConnectedUsersComponent
+    ConnectedUsersComponent,
+    ChatComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    MomentModule
   ],
   providers: [ConfigService, SocketMessageService],
   bootstrap: [RootComponent]

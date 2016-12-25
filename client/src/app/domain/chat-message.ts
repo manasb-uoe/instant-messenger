@@ -4,9 +4,9 @@
 import {User} from "./user";
 
 export class ChatMessage {
-  private user: User;
-  private messageText: string;
-  private timestamp: number;
+  public user: User;
+  public messageText: string;
+  public timestamp: number;
 
     public constructor(user: User, messageText: string, timestamp: number) {
         this.user = user;
