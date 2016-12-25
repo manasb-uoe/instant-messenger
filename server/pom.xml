@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.enthusiast94</groupId>
-    <artifactId>instant-messenger</artifactId>
+    <artifactId>instant-messenger-server</artifactId>
     <version>1.0</version>
     <build>
         <plugins>
