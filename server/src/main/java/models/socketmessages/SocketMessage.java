@@ -4,7 +4,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import models.ChatMessage;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import utils.Util;
 
 import java.lang.reflect.Type;
@@ -50,7 +49,7 @@ public class SocketMessage<T> {
                 type = new TypeToken<SocketMessage<ChatMessage>>() {}.getType();
                 break;
             default:
-                throw new NotImplementedException();
+                throw new RuntimeException("Not implemented yet.");
         }
 
         return Util.gson.fromJson(json, type);
