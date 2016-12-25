@@ -13,13 +13,13 @@
 .user .avatar {
   width: 12px;
   height: 12px;
-  background: cadetblue;
+  background: #025aa5;
   display: inline-block;
   margin-right: 5px;
 }
 
 .user .avatar-self {
-  background: red;
+  background: #449d44
 }
 
 .user .username {
