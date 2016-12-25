@@ -9,8 +9,6 @@ import { ConfigService } from "../../services/config-service";
   styleUrls: ['./root.component.css']
 })
 export class RootComponent implements OnInit{
-  public title = 'app works!';
-
   constructor(
     private socketMessageService: SocketMessageService,
     private configService: ConfigService

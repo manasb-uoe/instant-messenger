@@ -5,11 +5,13 @@ import { HttpModule } from '@angular/http';
 
 import { RootComponent } from './components/root/root.component';
 import { SocketMessageService } from "./services/socket-message-service";
-import {ConfigService} from "./services/config-service";
+import { ConfigService } from "./services/config-service";
+import { ConnectedUsersComponent } from "./components/connected-users/connected-users.component";
 
 @NgModule({
   declarations: [
-    RootComponent
+    RootComponent,
+    ConnectedUsersComponent
   ],
   imports: [
     BrowserModule,

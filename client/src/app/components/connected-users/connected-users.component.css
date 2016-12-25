@@ -1,0 +1,29 @@
+.connected-users-list {
+  padding-top: 10px;
+}
+
+.user {
+  padding: 2px 15px;
+}
+
+.user:hover {
+  background-color: #EEE;
+}
+
+.user .avatar {
+  width: 12px;
+  height: 12px;
+  background: cadetblue;
+  display: inline-block;
+  margin-right: 5px;
+}
+
+.user .avatar-self {
+  background: red;
+}
+
+.user .username {
+  display: inline-block;
+  margin: 0;
+}
+

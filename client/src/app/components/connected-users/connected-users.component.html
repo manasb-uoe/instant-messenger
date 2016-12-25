@@ -1,0 +1,8 @@
+<div class="connected-users-list">
+  <div *ngFor="let user of users">
+    <div class="user">
+      <div class="avatar" [class.avatar-self]="isCurrentUser(user)"></div>
+      <p class="username">{{isCurrentUser(user) ? user.username + ' (you)' : user.username}}</p>
+    </div>
+  </div>
+</div>
