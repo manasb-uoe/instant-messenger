@@ -1,7 +1,7 @@
 # Instant Messenger
 [![Build Status](https://travis-ci.org/enthusiast94/instant-messenger.svg?branch=master)](https://travis-ci.org/enthusiast94/instant-messenger)
 
-Instant messenger application implemented using Spark (Websockets) and React.js
+Instant messenger application implemented using [Spark Java](http://sparkjava.com/) and [Angular 2](https://angular.io/).
 
 ## How to get started?
 ### Start client: 
