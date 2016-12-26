@@ -1,18 +1,20 @@
+# Instant Messenger
 [![Build Status](https://travis-ci.org/enthusiast94/instant-messenger.svg?branch=master)](https://travis-ci.org/enthusiast94/instant-messenger)
 
-# Instant Messenger
 Instant messenger application implemented using Spark (Websockets) and React.js
 
 ## How to get started?
-Navigate to `src/main/resources/public` and run the following commands: 
-- `npm install` to download all npm dependencies.
-- `npm run build` to build javascript project into `bundle/bundle.js`.
+### Start client: 
+Navigate to `client` directory and run the following commands:
+- `npm install`
+- `ng serve`
 
-Then navigate to the root directory and run: 
-- `mvn package` to build jar file for the entire project.
-- `java -jar target/instant-messenger-1.0-jar-with-dependencies.jar` to start the server. 
+### Start server:
+Navigate to `server` directory and run the following commands: 
+- `mvn clean package`
+- `java -jar target/instant-messenger-server-1.0-jar-with-dependencies.jar`
 
 The application can then be accessed from the browser at the following URL: 
-`http://localhost:4567/index.html` 
+`http://localhost:4200` 
 
-**Note:** Application config can be found in `src/main/resources/public/config.json`. 
+**Note:** Server config can be found in `server/src/main/resources/public/config.json` and client config can be found in `client/src/config.json`. 
