@@ -1,4 +1,4 @@
-package models.socketmessages;
+package domain;
 
 /**
  * Created by manasb on 21-11-2016.

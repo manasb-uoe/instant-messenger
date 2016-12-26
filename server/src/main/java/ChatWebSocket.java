@@ -1,6 +1,5 @@
-import models.ChatMessage;
-import models.User;
-import models.socketmessages.SocketMessage;
+import domain.User;
+import domain.SocketMessage;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;

@@ -1,7 +1,4 @@
-package models.socketmessages;
-
-import models.ChatMessage;
-import models.User;
+package domain;
 
 import java.util.List;
 

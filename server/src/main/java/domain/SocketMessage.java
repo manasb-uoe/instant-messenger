@@ -1,9 +1,8 @@
-package models.socketmessages;
+package domain;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
-import models.ChatMessage;
 import utils.Util;
 
 import java.lang.reflect.Type;

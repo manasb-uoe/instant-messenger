@@ -1,4 +1,4 @@
-package models;
+package domain;
 
 /**
  * Created by manasb on 25-12-2016.

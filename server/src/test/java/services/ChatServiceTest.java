@@ -1,9 +1,6 @@
 package services;
 
-import models.ChatMessage;
-import models.MessageSource;
-import models.User;
-import models.socketmessages.*;
+import domain.*;
 import org.eclipse.jetty.websocket.api.RemoteEndpoint;
 import org.eclipse.jetty.websocket.api.Session;
 import org.junit.Before;
@@ -19,7 +16,6 @@ import java.util.Optional;
 
 import static java.lang.Math.abs;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.lessThan;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 

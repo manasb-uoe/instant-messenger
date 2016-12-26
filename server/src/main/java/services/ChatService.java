@@ -1,9 +1,6 @@
 package services;
 
-import models.ChatMessage;
-import models.MessageSource;
-import models.User;
-import models.socketmessages.*;
+import domain.*;
 import org.eclipse.jetty.websocket.api.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
