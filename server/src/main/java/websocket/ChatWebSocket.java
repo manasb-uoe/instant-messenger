@@ -1,3 +1,5 @@
+package websocket;
+
 import domain.User;
 import domain.SocketMessage;
 import org.eclipse.jetty.websocket.api.Session;

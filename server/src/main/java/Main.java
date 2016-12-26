@@ -2,6 +2,7 @@ import org.eclipse.jetty.websocket.api.Session;
 import services.ChatService;
 import services.ConfigService;
 import utils.HttpResponseFactory;
+import websocket.ChatWebSocket;
 
 import static spark.Spark.*;
 
