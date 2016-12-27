@@ -70,7 +70,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     }
 
     const chatMessage = MessageFactory.createChatMessage(this.currentUser, messageText);
-    this.socketMessageService.sendMessage(chatMessage);
+    this.socketMessageService.sendSocketMessage(chatMessage);
 
     this.chatInputText = "";
   }
