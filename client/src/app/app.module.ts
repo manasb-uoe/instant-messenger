@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
 import { ChatRootComponent } from './components/chat-root/chat-root.component';
 import { SocketMessageService } from "./services/socket-message-service";
@@ -12,24 +12,24 @@ import { ChatComponent } from "./components/chat/chat.component";
 import { MomentModule } from "angular2-moment";
 import { AppRootComponent } from "./components/app-root/app-root.component";
 import { PageNotFoundComponent } from "./components/pagenotfound/pagenotfound.component.";
-import {LandingPageComponent} from "./components/landing-page/landing-page.component";
-import {ApiInteractionService} from "./services/api-interaction.service";
-import {DataService} from "./services/data.service";
+import { LandingPageComponent } from "./components/landing-page/landing-page.component";
+import { ApiInteractionService } from "./services/api-interaction.service";
+import { DataService } from "./services/data.service";
 
-const routes: Routes = [
-  {
-    path: '',
+export const routes = {
+  landingPage: {
+    path: 'get-started',
     component: LandingPageComponent
   },
-  {
+  chat: {
     path: 'chat',
     component: ChatRootComponent
   },
-  {
+  pageNotFound: {
     path: '**',
     component: PageNotFoundComponent
   }
-];
+};
 
 @NgModule({
   declarations: [
@@ -45,7 +45,11 @@ const routes: Routes = [
     FormsModule,
     HttpModule,
     MomentModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot([
+      routes.landingPage,
+      routes.chat,
+      routes.pageNotFound
+    ])
   ],
   providers: [
     ConfigService,

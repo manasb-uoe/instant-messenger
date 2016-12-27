@@ -3,11 +3,10 @@
  */
 import { Component } from '@angular/core';
 import { ApiInteractionService } from "../../services/api-interaction.service";
-import { SocketMessageService } from "../../services/socket-message-service";
-import {MessageFactory} from "../../domain/message-factory";
 import { Router } from '@angular/router';
 import {User} from "../../domain/user";
 import {DataService} from "../../services/data.service";
+import {routes} from "../../app.module";
 
 @Component({
   selector: 'landing-page',
@@ -19,7 +18,6 @@ export class LandingPageComponent {
 
   public constructor(
     private apiInteractionService: ApiInteractionService,
-    private socketMessageService: SocketMessageService,
     private dataService: DataService,
     private router: Router
   ) {}
@@ -42,7 +40,7 @@ export class LandingPageComponent {
     this.apiInteractionService.addUser(username)
       .then((user: User) => {
         this.dataService.currentUser = user;
-        this.router.navigateByUrl("/chat");
+        this.router.navigateByUrl(routes.chat.path);
       })
       .catch(error => this.error = error);
   }
