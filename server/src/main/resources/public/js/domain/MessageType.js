@@ -5,8 +5,7 @@
 const MessageType = Object.freeze({
     CHAT_MESSAGE: "CHAT_MESSAGE",
     CONNECTED_USERS: "CONNECTED_USERS",
-    ERROR: "ERROR",
-    IDENTITY: "IDENTITY"
+    ERROR: "ERROR"
 });
 
 module.exports = MessageType;

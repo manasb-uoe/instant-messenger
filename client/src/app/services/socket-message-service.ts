@@ -10,7 +10,6 @@ import {MessageSource} from "../domain/message-source";
 @Injectable()
 export class SocketMessageService {
   public connectedUsers$ = new EventEmitter<User[]>();
-  public identity$ = new EventEmitter<User>();
   public chatMessages$ = new EventEmitter<ChatMessage>();
 
   private webSocket: WebSocket;
@@ -44,9 +43,6 @@ export class SocketMessageService {
     switch (message.messageType) {
       case MessageType[MessageType.CONNECTED_USERS]:
         this.connectedUsers$.emit(message.data);
-        break;
-      case MessageType[MessageType.IDENTITY]:
-        this.identity$.emit(message.data);
         break;
       case MessageType[MessageType.CHAT_MESSAGE]:
         // Convert string to enum before emitting

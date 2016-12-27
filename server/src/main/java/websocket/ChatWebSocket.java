@@ -41,7 +41,6 @@ public class ChatWebSocket {
                     final String username = (String) socketMessage.getData();
                     final User user = chatService.bindSessionToUser(session, username);
                     chatService.broadcastConnectedUsers();
-                    chatService.sendIdentityToSession(session);
                     chatService.broadcastUserConnectedSystemMessage(user);
                 } catch (Exception e) {
                     chatService.sendErrorToUser(e.getMessage(), session);

@@ -18,8 +18,4 @@ public final class SocketMessageFactory {
     public static SocketMessage<List<User>> createConnectedUsersMessage(final List<User> connectedUsers) {
         return new SocketMessage<>(MessageType.CONNECTED_USERS, connectedUsers);
     }
-
-    public static SocketMessage<User> createIdentityMessage(final User user) {
-        return new SocketMessage<>(MessageType.IDENTITY, user);
-    }
 }

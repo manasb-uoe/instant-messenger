@@ -7,6 +7,7 @@ import {User} from "../../domain/user";
 import {SocketMessageService} from "../../services/socket-message-service";
 import {MessageFactory} from "../../domain/message-factory";
 import {MessageSource} from "../../domain/message-source";
+import {DataService} from "../../services/data.service";
 
 @Component({
   selector: 'chat',
@@ -15,14 +16,14 @@ import {MessageSource} from "../../domain/message-source";
 })
 export class ChatComponent implements OnInit, AfterViewChecked {
   public chatMessages: ChatMessage[] = [];
-  public currentUser: User;
   public chatInputText: string = "";
 
   public constructor(
-    private socketMessageService: SocketMessageService) {}
+    private socketMessageService: SocketMessageService,
+    private dataService: DataService
+  ) {}
 
   public ngOnInit(): void {
-    this.socketMessageService.identity$.subscribe((user: User) => this.currentUser = user);
     this.socketMessageService.chatMessages$.subscribe((chatMessage: ChatMessage) => {
       this.chatMessages.push(chatMessage);
     });
@@ -38,7 +39,8 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   }
 
   public isCurrentUser(user: User) {
-    return this.currentUser && this.currentUser.username === user.username;
+    const currentUser = this.dataService.currentUser;
+    return currentUser && currentUser.username === user.username;
   }
 
   public isSystemMessage(chatMessage: ChatMessage) {
@@ -59,7 +61,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   private sendChatMessage(): void {
     const messageText = this.chatInputText;
 
-    if (!this.currentUser) {
+    if (!this.dataService.currentUser) {
       console.error("No current user found so cannot send message");
       return;
     }
@@ -69,7 +71,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
       return;
     }
 
-    const chatMessage = MessageFactory.createChatMessage(this.currentUser, messageText);
+    const chatMessage = MessageFactory.createChatMessage(this.dataService.currentUser, messageText);
     this.socketMessageService.sendSocketMessage(chatMessage);
 
     this.chatInputText = "";

@@ -111,11 +111,6 @@ public final class ChatService {
         });
     }
 
-    public void sendIdentityToSession(final Session session) {
-        final User user = sessionUserMap.get(session);
-        sendMessage(session, SocketMessageFactory.createIdentityMessage(user));
-    }
-
     public void broadcastUserConnectedSystemMessage(final User user) {
         final ChatMessage chatMessage = new ChatMessage(
                 MessageSource.SYSTEM, systemUser,
