@@ -9,7 +9,14 @@ import { MessageSource } from "./message-source";
 
 export class MessageFactory {
 
-  public static createChatMessage(user: User, messageText: string) {
+  public static createConnectMessage(username: string): string {
+    return JSON.stringify({
+      messageType: MessageType[MessageType.CONNECT],
+      data: username
+    });
+  }
+
+  public static createChatMessage(user: User, messageText: string): string {
     const chatMessage = new ChatMessage(MessageSource.USER, user, messageText, Date.now());
     return JSON.stringify({
       messageType: MessageType[MessageType.CHAT_MESSAGE],

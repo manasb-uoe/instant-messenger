@@ -1,0 +1,24 @@
+<div class="jumbotron">
+  <div class="container">
+    <h1 class="display-3">Welcome to Instant Messenger</h1>
+    <p>View source on <a href="https://github.com/enthusiast94/instant-messenger">Github</a></p>
+    <br>
+    <h6>Get started by choosing a <mark>nickname</mark>:</h6>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div *ngIf="error" class="alert alert-danger" role="alert">
+          <strong>Oh snap!</strong> {{error}}
+        </div>
+
+        <div class="input-group">
+          <input [(ngModel)]="username" (keypress)="onInputKeyPress($event)" type="text" class="form-control"
+                 placeholder="Type your nickname">
+          <span class="input-group-btn">
+            <button (click)="onGoButtonClick($event)" class="btn btn-primary" type="button">Go!</button>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

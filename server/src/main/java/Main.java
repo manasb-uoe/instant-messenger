@@ -1,4 +1,4 @@
-import org.eclipse.jetty.websocket.api.Session;
+import domain.User;
 import services.ChatService;
 import services.ConfigService;
 import utils.HttpResponseFactory;
@@ -27,19 +27,10 @@ public class Main {
     }
 
     private static void setupApiEndpoints(final ChatService chatService) {
-        post("/edit-username", (request, response) -> {
-            final String[] bodySplit = request.body().split(",");
-
-            if (bodySplit.length != 2) {
-                return HttpResponseFactory.createBadRequestResponse(response, "Body must be in the format: " +
-                        "existing_username,new_username");
-            }
-
+        post("/api/add-user", (request, response) -> {
             try {
-                final Session session = chatService.updateUsername(bodySplit[0], bodySplit[1]);
-                chatService.sendIdentityToSession(session);
-                chatService.broadcastConnectedUsers();
-                return HttpResponseFactory.createOkResponse(response, null);
+                User user = chatService.addUser(request.body());
+                return HttpResponseFactory.createOkResponse(response, user);
             } catch (Exception e) {
                 return HttpResponseFactory.createBadRequestResponse(response, e.getMessage());
             }

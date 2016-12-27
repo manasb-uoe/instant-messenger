@@ -3,6 +3,7 @@
  */
 
 export enum MessageType {
+  CONNECT,
   CHAT_MESSAGE,
   CONNECTED_USERS,
   ERROR,

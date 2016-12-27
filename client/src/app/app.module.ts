@@ -12,19 +12,29 @@ import { ChatComponent } from "./components/chat/chat.component";
 import { MomentModule } from "angular2-moment";
 import { AppRootComponent } from "./components/app-root/app-root.component";
 import { PageNotFoundComponent } from "./components/pagenotfound/pagenotfound.component.";
+import {LandingPageComponent} from "./components/landing-page/landing-page.component";
+import {ApiInteractionService} from "./services/api-interaction.service";
+import {DataService} from "./services/data.service";
 
 const routes: Routes = [
   {
-    path: 'instant-messenger', component: ChatRootComponent
+    path: '',
+    component: LandingPageComponent
   },
   {
-    path: '**', component: PageNotFoundComponent
+    path: 'chat',
+    component: ChatRootComponent
+  },
+  {
+    path: '**',
+    component: PageNotFoundComponent
   }
 ];
 
 @NgModule({
   declarations: [
     AppRootComponent,
+    LandingPageComponent,
     ChatRootComponent,
     ConnectedUsersComponent,
     ChatComponent,
@@ -39,7 +49,9 @@ const routes: Routes = [
   ],
   providers: [
     ConfigService,
-    SocketMessageService
+    SocketMessageService,
+    ApiInteractionService,
+    DataService
   ],
   bootstrap: [AppRootComponent]
 })

@@ -9,10 +9,11 @@ import { Observable } from 'rxjs/Rx';
 export class ConfigService {
   private config: Object;
   private configUrl = "config.json";
+  private isLoaded: boolean = false;
 
-  constructor(private httpService: Http) {}
+  public constructor(private httpService: Http) {}
 
-  load(): Promise<void> {
+  public load(): Promise<void> {
     if (this.config) {
       return Promise.resolve();
     }
@@ -30,6 +31,7 @@ export class ConfigService {
         .subscribe(
           configData => {
             this.config = configData;
+            this.isLoaded = true;
             resolve();
           },
           error => reject(error)
@@ -37,11 +39,19 @@ export class ConfigService {
     });
   }
 
-  getPort(): number {
+  private checkIfLoaded(): void {
+    if (!this.isLoaded) {
+      throw new Error("Config was not loaded. Call load() before accessing config.");
+    }
+  }
+
+  public getPort(): number {
+    this.checkIfLoaded();
     return this.config['server_port'];
   }
 
-  getWebSocketEndpoint(): string {
+  public getWebSocketEndpoint(): string {
+    this.checkIfLoaded();
     return this.config['websocket_endpoint'];
   }
 

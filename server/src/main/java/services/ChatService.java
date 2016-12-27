@@ -17,12 +17,14 @@ public final class ChatService {
     private static final Logger log = LoggerFactory.getLogger(ChatService.class);
     private static ChatService instance;
     final Map<Session, User> sessionUserMap;
+    final List<User> connectedUsers;
     final AtomicInteger currentUserNumber;
     private final User systemUser = new User("System");
 
     private ChatService() {
         sessionUserMap = Collections.synchronizedMap(new LinkedHashMap<>());
         currentUserNumber = new AtomicInteger(1);
+        connectedUsers = Collections.synchronizedList(new ArrayList<>());
     }
 
     public synchronized static ChatService getInstance() {
@@ -33,14 +35,47 @@ public final class ChatService {
         return instance;
     }
 
-    public User addUser(final Session session) throws Exception {
-        final String username = "User " + currentUserNumber.getAndIncrement();
+    public User addUser(final String username) throws Exception {
+        validateNewUsername(username);
+
+        final User newUser = new User(username);
+        connectedUsers.add(newUser);
+
+        return newUser;
+    }
+
+    private void validateNewUsername(String username) throws Exception {
+        if (username.length() == 0) {
+            throw new Exception("Username must be at least 1 character long.");
+        }
+
+        if (username.length() > 20) {
+            throw new Exception("Username must be at most 20 characters long.");
+        }
 
         if (doesUsernameAlreadyExist(username)) {
             throw new Exception("Another user with the same username already exists.");
         }
+    }
 
-        final User user = new User(username);
+    public User bindSessionToUser(final Session session, final String username) throws Exception {
+        final Optional<Map.Entry<Session, User>> sessionUserEntryToUpdateOptional = sessionUserMap.entrySet().stream()
+                .filter(sessionUserEntry -> sessionUserEntry.getValue().getUsername().equals(username))
+                .findFirst();
+
+        if (sessionUserEntryToUpdateOptional.isPresent()) {
+            throw new Exception(String.format("User with username [%s] is already bound to a session.", username));
+        }
+
+        final Optional<User> existingUserOptional = connectedUsers.stream()
+                .filter(user -> user.getUsername().equals(username))
+                .findFirst();
+
+        if (!existingUserOptional.isPresent()) {
+            throw new Exception(String.format("No user with username [%s] exists.", username));
+        }
+
+        final User user = existingUserOptional.get();
         sessionUserMap.put(session, user);
 
         log.info(username + " connected.");
@@ -48,32 +83,22 @@ public final class ChatService {
         return user;
     }
 
-    public Session updateUsername(final String existingUsername, final String newUsername) throws Exception {
-        final Optional<Map.Entry<Session, User>> sessionUserEntryToUpdateOptional = sessionUserMap.entrySet().stream()
-                .filter(sessionUserEntry -> sessionUserEntry.getValue().getUsername().equals(existingUsername))
-                .findFirst();
-
-        if (!sessionUserEntryToUpdateOptional.isPresent()) {
-            throw new Exception(String.format("No user with username [%s] exists", existingUsername));
-        }
-
-        if (doesUsernameAlreadyExist(newUsername)) {
-            throw new Exception("Another user with the same username already exists.");
-        }
-
-        Map.Entry<Session, User> sessionUserEntryToUpdate = sessionUserEntryToUpdateOptional.get();
-        sessionUserEntryToUpdate.getValue().setUsername(newUsername);
-        return sessionUserEntryToUpdate.getKey();
-    }
-
-    public Optional<User> removeUser(final Session session) {
+    public User removeUser(final Session session) throws Exception {
         final Optional<User> removedUserOptional = Optional.of(sessionUserMap.remove(session));
-        removedUserOptional.ifPresent(user -> log.info(user.getUsername() + " disconnected."));
-        return removedUserOptional;
+        if (!removedUserOptional.isPresent()) {
+            throw new Exception("Failed to remove user since session does not exist.");
+        }
+
+        final User user = removedUserOptional.get();
+        connectedUsers.remove(user);
+
+        log.info(user.getUsername() + " disconnected.");
+
+        return user;
     }
 
-    public void broadcastConnectedUsers()  {
-        broadcastMessage(SocketMessageFactory.createConnectedUsersMessage(getConnectedUsers()));
+    public void broadcastConnectedUsers() {
+        broadcastMessage(SocketMessageFactory.createConnectedUsersMessage(connectedUsers));
     }
 
     public void sendErrorToUser(final String error, final Session session) {
@@ -118,17 +143,12 @@ public final class ChatService {
     }
 
     private boolean doesUsernameAlreadyExist(final String username) {
-        for (Map.Entry<Session, User> entry : sessionUserMap.entrySet()) {
-            if (entry.getValue().getUsername().equals(username)) {
+        for (User user : connectedUsers) {
+            if (user.getUsername().equals(username)) {
                 return true;
             }
         }
 
         return false;
     }
-
-    private List<User> getConnectedUsers() {
-        return new ArrayList<>(sessionUserMap.values());
-    }
-
 }

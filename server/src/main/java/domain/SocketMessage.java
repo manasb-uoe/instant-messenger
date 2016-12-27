@@ -44,6 +44,9 @@ public class SocketMessage<T> {
         Type type;
 
         switch (messageType) {
+            case CONNECT:
+                type = new TypeToken<SocketMessage<String>>() {}.getType();
+                break;
             case CHAT_MESSAGE:
                 type = new TypeToken<SocketMessage<ChatMessage>>() {}.getType();
                 break;

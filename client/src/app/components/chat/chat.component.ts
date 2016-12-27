@@ -18,7 +18,8 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   public currentUser: User;
   public chatInputText: string = "";
 
-  public constructor(private socketMessageService: SocketMessageService) {}
+  public constructor(
+    private socketMessageService: SocketMessageService) {}
 
   public ngOnInit(): void {
     this.socketMessageService.identity$.subscribe((user: User) => this.currentUser = user);
