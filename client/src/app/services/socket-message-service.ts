@@ -16,16 +16,16 @@ export class SocketMessageService {
   private webSocket: WebSocket;
   private port: number;
   private webSocketEndpoint: string;
-  private readonly stateOpen = 1;
-  private readonly stateClose = 3;
-  private readonly retryCounter = 4;
+  private readonly stateOpen: number = 1;
+  private readonly stateClose: number = 3;
+  private readonly retryCounter: number = 4;
 
-  public init(port: number, webSocketEndpoint: string) {
+  public init(port: number, webSocketEndpoint: string): void {
     this.port = port;
     this.webSocketEndpoint = webSocketEndpoint;
   }
 
-  private bindSocketEventHandlers() {
+  private bindSocketEventHandlers(): void {
     this.webSocket.onopen = (event) => this.onSocketOpen();
     this.webSocket.onclose = (event) => this.onSocketClose();
     this.webSocket.onmessage = (message) => this.onSocketMessage(message);
@@ -92,7 +92,7 @@ export class SocketMessageService {
     });
   }
 
-  private waitForSocketState(retryCounter: number, state: number, callback) {
+  private waitForSocketState(retryCounter: number, state: number, callback): void {
     let self = this;
 
     if (this.webSocket.readyState === state) {
