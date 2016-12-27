@@ -47,8 +47,12 @@ public class ChatWebSocket {
                     chatService.sendErrorToUser(e.getMessage(), session);
                     log.error(e.getMessage(), e);
                 }
+                break;
             case CHAT_MESSAGE:
                 chatService.broadcastMessage(socketMessage);
+                break;
+            default:
+                log.error(String.format("Cannot handle message of type [%s]", socketMessage.getMessageType()));
         }
     }
 }
