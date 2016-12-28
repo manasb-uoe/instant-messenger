@@ -4,7 +4,7 @@ import {SocketMessageService} from "../../services/socket-message-service";
 import {DataService} from "../../services/data.service";
 import {MessageFactory} from "../../domain/message-factory";
 import {Router} from "@angular/router";
-import {routes} from "../../app.module";
+import {paths} from "../../app.paths";
 
 @Component({
   selector: 'app-root',
@@ -24,7 +24,7 @@ export class ChatRootComponent implements OnInit, OnDestroy {
     const currentUser = this.dataService.currentUser;
 
     if (!currentUser) {
-      this.router.navigateByUrl(routes.landingPage.path);
+      this.router.navigateByUrl(paths.landingPage);
     } else {
       this.socketMessageService.init(this.configService.getPort(), this.configService.getWebSocketEndpoint());
 

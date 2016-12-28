@@ -4,9 +4,9 @@
 import { Component } from '@angular/core';
 import { ApiInteractionService } from "../../services/api-interaction.service";
 import { Router } from '@angular/router';
-import {User} from "../../domain/user";
-import {DataService} from "../../services/data.service";
-import {routes} from "../../app.module";
+import { User } from "../../domain/user";
+import { DataService } from "../../services/data.service";
+import { paths } from "../../app.paths";
 
 @Component({
   selector: 'landing-page',
@@ -40,7 +40,7 @@ export class LandingPageComponent {
     this.apiInteractionService.addUser(username)
       .then((user: User) => {
         this.dataService.currentUser = user;
-        this.router.navigateByUrl(routes.chat.path);
+        this.router.navigateByUrl(paths.chat);
       })
       .catch(error => this.error = error);
   }

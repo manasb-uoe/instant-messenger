@@ -15,21 +15,7 @@ import { PageNotFoundComponent } from "./components/pagenotfound/pagenotfound.co
 import { LandingPageComponent } from "./components/landing-page/landing-page.component";
 import { ApiInteractionService } from "./services/api-interaction.service";
 import { DataService } from "./services/data.service";
-
-export const routes = {
-  landingPage: {
-    path: 'get-started',
-    component: LandingPageComponent
-  },
-  chat: {
-    path: 'chat',
-    component: ChatRootComponent
-  },
-  pageNotFound: {
-    path: '**',
-    component: PageNotFoundComponent
-  }
-};
+import {paths} from "./app.paths";
 
 @NgModule({
   declarations: [
@@ -46,9 +32,23 @@ export const routes = {
     HttpModule,
     MomentModule,
     RouterModule.forRoot([
-      routes.landingPage,
-      routes.chat,
-      routes.pageNotFound
+      {
+        path: paths.landingPage,
+        component: LandingPageComponent
+      },
+      {
+        path: paths.chat,
+        component: ChatRootComponent
+      },
+      {
+        path: '',
+        redirectTo: paths.landingPage,
+        pathMatch: 'full'
+      },
+      {
+        path: '**',
+        component: PageNotFoundComponent
+      }
     ])
   ],
   providers: [
