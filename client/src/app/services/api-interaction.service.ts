@@ -30,7 +30,7 @@ export class ApiInteractionService {
 
         .catch((error: Response) => {
           console.error(error);
-          return Observable.throw(error.json().error || "Error loading config from server.");
+          return Observable.throw(error.json().error || "Error adding user.");
         })
 
         .subscribe(
