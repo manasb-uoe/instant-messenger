@@ -17,7 +17,8 @@ export class SocketMessageService {
   private webSocketEndpoint: string;
   private readonly stateOpen: number = 1;
   private readonly stateClose: number = 3;
-  private readonly retryCounter: number = 4;
+  private readonly retryCounter: number = 10;
+  private readonly retryInterval:number = 200;
 
   public init(port: number, webSocketEndpoint: string): void {
     this.port = port;
@@ -98,7 +99,7 @@ export class SocketMessageService {
         return callback("Failed to reach state [" + state + "] after numerous attempts.");
       }
 
-      setTimeout(() => self.waitForSocketState(--retryCounter, state, callback), 100);
+      setTimeout(() => self.waitForSocketState(--retryCounter, state, callback), this.retryInterval);
     }
   }
 
