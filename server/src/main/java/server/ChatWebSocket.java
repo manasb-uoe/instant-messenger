@@ -1,4 +1,4 @@
-package websocket;
+package server;
 
 import domain.SocketMessage;
 import domain.User;
