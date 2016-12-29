@@ -7,6 +7,7 @@ import utils.Util;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -49,6 +50,12 @@ public class SocketMessage<T> {
                 break;
             case CHAT_MESSAGE:
                 type = new TypeToken<SocketMessage<ChatMessage>>() {}.getType();
+                break;
+            case CONNECTED_USERS:
+                type = new TypeToken<SocketMessage<List<User>>>() {}.getType();
+                break;
+            case ERROR:
+                type = new TypeToken<SocketMessage<String>>() {}.getType();
                 break;
             default:
                 throw new RuntimeException("Not implemented yet.");

@@ -18,12 +18,10 @@ public final class ChatService {
     private static ChatService instance;
     final Map<Session, User> sessionUserMap;
     final List<User> connectedUsers;
-    final AtomicInteger currentUserNumber;
     private final User systemUser = new User("System");
 
     private ChatService() {
         sessionUserMap = Collections.synchronizedMap(new LinkedHashMap<>());
-        currentUserNumber = new AtomicInteger(1);
         connectedUsers = Collections.synchronizedList(new ArrayList<>());
     }
 
@@ -84,7 +82,7 @@ public final class ChatService {
     }
 
     public User removeUser(final Session session) throws Exception {
-        final Optional<User> removedUserOptional = Optional.of(sessionUserMap.remove(session));
+        final Optional<User> removedUserOptional = Optional.ofNullable(sessionUserMap.remove(session));
         if (!removedUserOptional.isPresent()) {
             throw new Exception("Failed to remove user since session does not exist.");
         }
