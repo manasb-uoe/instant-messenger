@@ -12,7 +12,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * Created by manasb on 12-11-2016.
  */
-public final class ChatService {
+public class ChatService {
 
     private static final Logger log = LoggerFactory.getLogger(ChatService.class);
     private static ChatService instance;

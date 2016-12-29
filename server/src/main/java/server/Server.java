@@ -3,6 +3,7 @@ package server;
 import domain.User;
 import services.ChatService;
 import services.ConfigService;
+import spark.Spark;
 import utils.HttpResponseFactory;
 
 import static spark.Spark.*;
@@ -28,7 +29,7 @@ public class Server {
     }
 
     public void stop() {
-        stop();
+        Spark.stop();
     }
 
     private void setupWebSocket(String endpoint) {
