@@ -12,9 +12,18 @@ import java.io.*;
 public class ConfigService {
 
     private JsonObject fileContents;
+    private static ConfigService instance;
 
-    public ConfigService() throws Exception {
+    private ConfigService() throws Exception {
         read();
+    }
+
+    public static synchronized ConfigService getInstance() throws Exception {
+        if (instance == null) {
+            instance = new ConfigService();
+        }
+
+        return instance;
     }
 
     private void read() throws Exception {

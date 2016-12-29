@@ -9,7 +9,7 @@ import server.Server;
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        final ConfigService configService = new ConfigService();
+        final ConfigService configService = ConfigService.getInstance();
         final ChatService chatService = ChatService.getInstance();
 
         new Server(configService, chatService).start();
