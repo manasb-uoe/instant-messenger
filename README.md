@@ -19,3 +19,7 @@ The application can then be accessed from the browser at the following URL:
 `http://localhost:4200` 
 
 **Note:** Server config can be found in `server/src/main/resources/public/config.json` and client config can be found in `client/src/config.json`. 
+
+### Run server tests:
+Navigate to `server` directory and run the following command:
+- `mvn test`
