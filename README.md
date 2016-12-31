@@ -8,7 +8,7 @@ Instant messenger application implemented using [Spark Java](http://sparkjava.co
 ### Start client: 
 Navigate to `client` directory and run the following commands:
 - `npm install`
-- `ng serve`
+- `npm start`
 
 ### Start server:
 Navigate to `server` directory and run the following commands: 
