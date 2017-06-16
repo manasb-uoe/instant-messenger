@@ -5,7 +5,9 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Navigation;
 using Autofac;
+using WpfClient.View;
 using WpfClient.ViewModel;
 
 namespace WpfClient
@@ -16,11 +18,16 @@ namespace WpfClient
     public partial class App : Application
     {
         public App()
+        { }
+
+        protected override void OnStartup(StartupEventArgs e)
         {
+            base.OnStartup(e);
+
             var container = new Bootstrapper().Bootstrap();
 
-            var mainWindow = container.Resolve<MainWindow>();
-            mainWindow.Show();
+            var addUserWindow = container.Resolve<AddUserWindow>();
+            addUserWindow.Show();
         }
     }
 }

@@ -2,10 +2,11 @@
 {
     public class MainViewModel
     {
-        public string Greeting { get; private set; }
+        public ConnectedUsersViewModel ConnectedUsersViewModel { get; private set; }
 
-        public MainViewModel() {
-            Greeting = "Hello, world!";
+        public MainViewModel(ConnectedUsersViewModel connectedUsersViewModel)
+        {
+            ConnectedUsersViewModel = connectedUsersViewModel;
         }
     }
 }

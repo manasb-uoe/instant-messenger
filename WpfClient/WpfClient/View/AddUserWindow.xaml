@@ -1,0 +1,51 @@
+﻿<Window x:Class="WpfClient.View.AddUserWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfClient.View"
+        mc:Ignorable="d"
+        Title="Instant Messenger"
+        Height="300"
+        Width="700">
+    <Grid Margin="10"
+          HorizontalAlignment="Center"
+          VerticalAlignment="Center">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Grid.Row="0"
+                   Text="Welcome to Instant Messenger"
+                   FontSize="42px"
+                   FontWeight="Light"></TextBlock>
+        <TextBlock Grid.Row="1"
+                   Text="View source on Github"
+                   FontSize="12px"
+                   FontWeight="Regular"></TextBlock>
+
+        <TextBlock Grid.Row="2"
+                   Text="Get started by choosing a nickname:"
+                   FontSize="12px"
+                   FontWeight="Bold"
+                   Margin="0 35 0 0"></TextBlock>
+        <StackPanel Grid.Row="3"
+                    Orientation="Horizontal"
+                    Margin="0 5 0 0">
+            <TextBox Text="{Binding Username, Mode=TwoWay}"
+                     Width="200px"
+                     Padding="10"></TextBox>
+            <Button Content="Go!"
+                    Width="50px"
+                    Background="{StaticResource PrimaryBlue}"
+                    Foreground="White"></Button>
+        </StackPanel>
+    </Grid>
+</Window>

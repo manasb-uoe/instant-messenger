@@ -3,18 +3,20 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WpfClient"
+        xmlns:view="clr-namespace:WpfClient.View"
         mc:Ignorable="d"
         Title="MainWindow"
-        Height="350"
-        Width="525">
+        Height="600"
+        Width="900">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*"></ColumnDefinition>
-            <ColumnDefinition Width="2*"></ColumnDefinition>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="2*" />
         </Grid.ColumnDefinitions>
 
-        <ListView Grid.Column="0"></ListView>
-        <TextBlock Text="{Binding Greeting}"></TextBlock>
+        <!-- Connected users view -->
+        <view:ConnectedUsersView Grid.Column="0"
+                             DataContext="{Binding ConnectedUsersViewModel}" />
+
     </Grid>
 </Window>
