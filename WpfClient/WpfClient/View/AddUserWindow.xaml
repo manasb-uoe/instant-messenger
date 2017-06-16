@@ -12,40 +12,62 @@
           HorizontalAlignment="Center"
           VerticalAlignment="Center">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
         <TextBlock Grid.Row="0"
                    Text="Welcome to Instant Messenger"
                    FontSize="42px"
-                   FontWeight="Light"></TextBlock>
+                   FontWeight="Light" />
+
         <TextBlock Grid.Row="1"
                    Text="View source on Github"
                    FontSize="12px"
-                   FontWeight="Regular"></TextBlock>
+                   FontWeight="Regular" />
 
         <TextBlock Grid.Row="2"
                    Text="Get started by choosing a nickname:"
                    FontSize="12px"
                    FontWeight="Bold"
-                   Margin="0 35 0 0"></TextBlock>
-        <StackPanel Grid.Row="3"
-                    Orientation="Horizontal"
-                    Margin="0 5 0 0">
-            <TextBox Text="{Binding Username, Mode=TwoWay}"
-                     Width="200px"
-                     Padding="10"></TextBox>
-            <Button Content="Go!"
-                    Width="50px"
+                   Margin="0 35 0 0" />
+
+        <TextBlock Grid.Row="3" Text="{Binding ErrorMessage}"
+                   Visibility="{Binding IsShowingErrorMessage, Converter={StaticResource BooleanToVisibilityConverter}}"
+                   Foreground="White"
+                   TextAlignment="Center"
+                   Padding="10" Margin="0 5 0 5">
+            <TextBlock.Background>
+                <SolidColorBrush Color="IndianRed" Opacity="0.7" />
+            </TextBlock.Background>
+        </TextBlock>
+
+        <Grid Grid.Row="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="9*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+
+            <TextBox Grid.Column="0" Text="{Binding Username, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
+                     Padding="10">
+                <TextBox.InputBindings>
+                    <KeyBinding 
+                        Key="Enter"
+                        Command="{Binding AddUserCommand}"></KeyBinding>
+                </TextBox.InputBindings>
+            </TextBox>
+            <Button Grid.Column="1" Content="Go!"
                     Background="{StaticResource PrimaryBlue}"
-                    Foreground="White"></Button>
-        </StackPanel>
+                    Command="{Binding AddUserCommand}"
+                    IsEnabled="{Binding IsNotLoading}"
+                    Foreground="White" />
+        </Grid>
     </Grid>
 </Window>

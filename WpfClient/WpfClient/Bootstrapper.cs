@@ -1,8 +1,9 @@
 ﻿using System.IO;
 using Autofac;
-using WpfClient.Util;
 using WpfClient.View;
 using WpfClient.ViewModel;
+using WpfClient.Util.Config;
+using WpfCLient.DataAccess;
 
 namespace WpfClient
 {
@@ -17,6 +18,8 @@ namespace WpfClient
             builder.RegisterType<ConnectedUsersViewModel>().AsSelf();
             builder.RegisterType<AddUserWindow>().AsSelf();
             builder.RegisterType<AddUserViewModel>().AsSelf();
+            builder.RegisterType<UserApi>().As<IUserApi>();
+            builder.RegisterType<HttpHandler>().As<IHttpHandler>();
 
             var executionAssemblyDir = System.Reflection.Assembly.GetExecutingAssembly().Location;
             var configPath = Path.Combine(System.IO.Path.GetDirectoryName(executionAssemblyDir), "Config\\config.json");

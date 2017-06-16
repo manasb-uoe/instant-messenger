@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfClient.Model", "WpfClien
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfClient.DataAccess.Tests", "WpfClient.DataAccess.Tests\WpfClient.DataAccess.Tests.csproj", "{AE4AA48D-3EE5-4E30-ABFC-CAEC18101896}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfClient.Util", "WpfClient.Util\WpfClient.Util.csproj", "{4E6864BF-61E5-4893-AD90-46ADFA0CB0CD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{AE4AA48D-3EE5-4E30-ABFC-CAEC18101896}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AE4AA48D-3EE5-4E30-ABFC-CAEC18101896}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AE4AA48D-3EE5-4E30-ABFC-CAEC18101896}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E6864BF-61E5-4893-AD90-46ADFA0CB0CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E6864BF-61E5-4893-AD90-46ADFA0CB0CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E6864BF-61E5-4893-AD90-46ADFA0CB0CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E6864BF-61E5-4893-AD90-46ADFA0CB0CD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

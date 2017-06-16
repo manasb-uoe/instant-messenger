@@ -77,8 +77,7 @@
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Command\DelegateCommand.cs" />
-    <Compile Include="Util\Config.cs" />
-    <Compile Include="Util\ConfigLoader.cs" />
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="ValueConverter\StringToUpperCaseConverter.cs" />
     <Compile Include="ViewModel\AddUserViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
@@ -99,6 +98,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ViewModel\ConnectedUsersViewModel.cs" />
+    <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="View\AddUserWindow.xaml.cs">
       <DependentUpon>AddUserWindow.xaml</DependentUpon>
     </Compile>
@@ -131,6 +131,9 @@
     <None Include="Config\config.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Config\NLog.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -141,13 +144,29 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\WpfCLient.DataAccess\WpfCLient.DataAccess.csproj">
+      <Project>{E53009FC-06F6-4420-B61B-626DC35392B4}</Project>
+      <Name>WpfCLient.DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WpfClient.Model\WpfClient.Model.csproj">
+      <Project>{08079D4D-6E07-4DFB-A61F-8982E8CCCDE3}</Project>
+      <Name>WpfClient.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WpfClient.Util\WpfClient.Util.csproj">
+      <Project>{4e6864bf-61e5-4893-ad90-46adfa0cb0cd}</Project>
+      <Name>WpfClient.Util</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
   <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
     <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
     <Error Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
   </Target>
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(TargetDir)\config\Nlog.config" "$(TargetDir)\Nlog.config"</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

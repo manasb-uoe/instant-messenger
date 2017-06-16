@@ -3,7 +3,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Moq;
 using WpfClient.Model;
-using WpfClient.Util;
+using WpfClient.Util.Config;
 using WpfCLient.DataAccess;
 using Xunit;
 
@@ -24,14 +24,14 @@ namespace WpfClient.DataAccess.Tests
         public async void ShouldReturnUserIfAddUserRequestIsSuccessful()
         {
             var username = "TestUser";
-            string sampleSuccessResponseString = "{\n    \"data\": {\n        \"username\": \"" + username + "\"\n    },\n    \"statusCode\": 200\n}";
+            string sampleSuccessResponseString = "{\"data\": {\"username\": \"" + username + "\"},\"statusCode\": 200}";
             var httpResponseMessage = new HttpResponseMessage(HttpStatusCode.OK)
             {
                 Content = new StringContent(sampleSuccessResponseString)
             };
             httpHandlerMock.Setup(handler => handler.PostAsync(It.IsAny<string>(), It.IsAny<HttpContent>()))
                 .Returns(Task.FromResult(httpResponseMessage));
-            var userApi = new UserApi(configMock.Object, httpHandlerMock.Object);
+            var userApi = new UserApi(configMock.Object, () => httpHandlerMock.Object);
 
             var response = await userApi.AddUserAsync(username);
 
@@ -44,14 +44,14 @@ namespace WpfClient.DataAccess.Tests
         public async void ShouldReturnErrorIfAddUserRequestIsUnsuccessful()
         {
             const string errorMessage = "This is an error";;
-            const string sampleErrorResponse = "{\n    \"data\": {\n        \"error\": \"" + errorMessage + "\"\n    },\n    \"statusCode\": 400\n}";
+            const string sampleErrorResponse = "{\"error\": \"" + errorMessage + "\", \"statusCode\": 400}";
             var httpResponseMessage = new HttpResponseMessage(HttpStatusCode.BadRequest)
             {
                 Content = new StringContent(sampleErrorResponse)
             };
             httpHandlerMock.Setup(handler => handler.PostAsync(It.IsAny<string>(), It.IsAny<HttpContent>()))
                 .Returns(Task.FromResult(httpResponseMessage));
-            var userApi = new UserApi(configMock.Object, httpHandlerMock.Object);
+            var userApi = new UserApi(configMock.Object, () => httpHandlerMock.Object);
 
             var response = await userApi.AddUserAsync(string.Empty);
 

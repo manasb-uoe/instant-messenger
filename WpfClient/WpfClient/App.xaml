@@ -13,8 +13,13 @@
                     Value="Bold" />
         </Style>
         <SolidColorBrush Color="#0275d8" x:Key="PrimaryBlue" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </Application.Resources>
 </Application>
+
+
+
+
 
 
 

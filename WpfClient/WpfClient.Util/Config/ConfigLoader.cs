@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 using Newtonsoft.Json;
 
-namespace WpfClient.Util
+namespace WpfClient.Util.Config
 {
-    class ConfigLoader
+    public class ConfigLoader
     {
         private string path;
 
@@ -22,7 +17,7 @@ namespace WpfClient.Util
             using(var streamReader = new StreamReader(path))
             {
                 string json = streamReader.ReadToEnd();
-                var config = JsonConvert.DeserializeObject<Config>(json);
+                var config = JsonConvert.DeserializeObject<Util.Config.Config>(json);
 
                 return config;
             }

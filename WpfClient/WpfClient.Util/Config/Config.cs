@@ -1,4 +1,4 @@
-﻿namespace WpfClient.Util
+﻿namespace WpfClient.Util.Config
 {
     public class Config
     {

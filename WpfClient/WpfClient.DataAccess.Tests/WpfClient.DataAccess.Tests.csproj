@@ -68,6 +68,10 @@
       <Project>{08079D4D-6E07-4DFB-A61F-8982E8CCCDE3}</Project>
       <Name>WpfClient.Model</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WpfClient.Util\WpfClient.Util.csproj">
+      <Project>{4E6864BF-61E5-4893-AD90-46ADFA0CB0CD}</Project>
+      <Name>WpfClient.Util</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WpfClient\WpfClient.UI.csproj">
       <Project>{08CCA7A8-4E43-42E4-BD8A-37EB2A7E7295}</Project>
       <Name>WpfClient.UI</Name>
