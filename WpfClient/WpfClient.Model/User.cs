@@ -24,5 +24,12 @@ namespace WpfClient.Model
         {
             return (Username != null ? Username.GetHashCode() : 0);
         }
+
+        public override string ToString()
+        {
+            return $"{nameof(Username)}: {Username}";
+        }
+
+
     }
 }

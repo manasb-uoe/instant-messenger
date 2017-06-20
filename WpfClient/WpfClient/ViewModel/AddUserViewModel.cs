@@ -1,7 +1,11 @@
-﻿using System.Threading.Tasks;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using NLog;
+using Prism.Events;
 using WpfClient.Command;
+using WpfClient.Event;
+using WpfClient.Model;
+using WpfClient.Util;
+using WpfClient.View;
 using WpfCLient.DataAccess;
 
 namespace WpfClient.ViewModel
@@ -47,10 +51,15 @@ namespace WpfClient.ViewModel
         private bool isShowingErrorMessage;
         private readonly IUserApi userApi;
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+        private readonly WindowFactory<ChatWindow> chatWindowFactory;
+        private readonly IEventAggregator eventAggregator;
 
-        public AddUserViewModel(IUserApi userApi)
+        public AddUserViewModel(IUserApi userApi, WindowFactory<ChatWindow> chatWindowFactory, IEventAggregator eventAggregator)
         {
             this.userApi = userApi;
+            this.chatWindowFactory = chatWindowFactory;
+            this.eventAggregator = eventAggregator;
+
             AddUserCommand = new DelegateCommand(o => { AddUser(); });
             IsNotLoading = true;
         }
@@ -64,6 +73,8 @@ namespace WpfClient.ViewModel
             if (apiResponse.IsSuccessful())
             {
                 IsShowingErrorMessage = false;
+                chatWindowFactory.ShowWindow();
+                eventAggregator.GetEvent<CachedEvent<User>>().Publish(apiResponse.Body);
                 Log.Info($"User with username [{Username}] added successfully.");
             }
             else

@@ -1,5 +1,7 @@
 ﻿using System.IO;
 using Autofac;
+using Prism.Events;
+using WpfClient.Util;
 using WpfClient.View;
 using WpfClient.ViewModel;
 using WpfClient.Util.Config;
@@ -13,20 +15,28 @@ namespace WpfClient
         {
             var builder = new ContainerBuilder();
 
-            builder.RegisterType<MainWindow>().AsSelf();
-            builder.RegisterType<MainViewModel>().AsSelf();
             builder.RegisterType<ConnectedUsersViewModel>().AsSelf();
             builder.RegisterType<AddUserWindow>().AsSelf();
+            builder.RegisterType<ChatViewModel>().AsSelf();
+            builder.RegisterType<ChatWindow>().AsSelf();
             builder.RegisterType<AddUserViewModel>().AsSelf();
             builder.RegisterType<UserApi>().As<IUserApi>();
             builder.RegisterType<HttpHandler>().As<IHttpHandler>();
+            builder.RegisterType<WindowFactory<ChatWindow>>().AsSelf();
+            builder.RegisterType<EventAggregator>().As<IEventAggregator>().SingleInstance();
 
-            var executionAssemblyDir = System.Reflection.Assembly.GetExecutingAssembly().Location;
-            var configPath = Path.Combine(System.IO.Path.GetDirectoryName(executionAssemblyDir), "Config\\config.json");
-            var config = new ConfigLoader(configPath).Load();
+            var config = LoadAppConfig();
             builder.RegisterInstance(config).AsSelf();
 
             return builder.Build();
+        }
+
+        private static Config LoadAppConfig()
+        {
+            var executionAssemblyDir = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            var configPath = Path.Combine(System.IO.Path.GetDirectoryName(executionAssemblyDir), "Config\\config.json");
+            var config = new ConfigLoader(configPath).Load();
+            return config;
         }
     }
 }

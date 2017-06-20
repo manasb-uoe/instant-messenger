@@ -10,23 +10,23 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WpfClient.ViewModel;
 
-namespace WpfClient {
+namespace WpfClient.View
+{
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for ChatWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window {
+    public partial class ChatWindow : Window
+    {
+        public ChatViewModel ChatViewModel { get; }
 
-        private MainViewModel viewModel;
-
-        public MainWindow(MainViewModel viewModel) {
+        public ChatWindow(ChatViewModel chatViewModel)
+        {
+            ChatViewModel = chatViewModel;
+            DataContext = this;
             InitializeComponent();
-
-            this.viewModel = viewModel;
-            DataContext = viewModel;
         }
     }
 }
