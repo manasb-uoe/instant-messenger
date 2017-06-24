@@ -90,6 +90,9 @@
     <Compile Include="Util\WindowFactory.cs" />
     <Compile Include="ValueConverter\StringToUpperCaseConverter.cs" />
     <Compile Include="ViewModel\AddUserViewModel.cs" />
+    <Compile Include="View\Messages.xaml.cs">
+      <DependentUpon>Messages.xaml</DependentUpon>
+    </Compile>
     <Page Include="View\AddUserWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -118,6 +121,10 @@
     <Compile Include="View\ConnectedUsersView.xaml.cs">
       <DependentUpon>ConnectedUsersView.xaml</DependentUpon>
     </Compile>
+    <Page Include="View\Messages.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

@@ -8,12 +8,12 @@
         Title="ChatWindow" Height="600" Width="900" WindowState="Maximized" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="48*" />
-            <ColumnDefinition Width="131*"/>
-            <ColumnDefinition Width="716*" />
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="8*" />
         </Grid.ColumnDefinitions>
-        <Border Grid.Column="0" BorderBrush="{StaticResource BorderColor}" BorderThickness="0 0 1 0" Grid.ColumnSpan="2" Margin="0,0,0.111,-0.111">
-            <view:ConnectedUsersView DataContext="{Binding ConnectedUsersViewModel}" />
+        <Border BorderBrush="{StaticResource BorderColor}" BorderThickness="0 0 1 0">
+            <view:ConnectedUsersView Grid.Column="0" DataContext="{Binding ConnectedUsersViewModel}" />
         </Border>
+        <view:Messages Grid.Column="1" />
     </Grid>
 </Window>

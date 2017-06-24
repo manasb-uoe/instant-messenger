@@ -41,7 +41,7 @@
                                 <Style TargetType="TextBlock">
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding IsCurrentUser}" Value="True">
-                                            <Setter Property="Text" Value="{Binding User.Username, StringFormat='\{0\} (you)'}"></Setter>
+<!--                                            <Setter Property="Text" Value="{Binding User.Username, StringFormat='\{0\} (you)'}"></Setter>-->
                                         </DataTrigger>
                                         <DataTrigger Binding="{Binding IsCurrentUser}" Value="False">
                                             <Setter Property="Text" Value="{Binding User.Username}"></Setter>
