@@ -60,12 +60,14 @@
                 <TextBox.InputBindings>
                     <KeyBinding 
                         Key="Enter"
-                        Command="{Binding AddUserCommand}"></KeyBinding>
+                        Command="{Binding AddUserCommand}"
+                        CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"></KeyBinding>
                 </TextBox.InputBindings>
             </TextBox>
             <Button Grid.Column="1" Content="Go!"
                     Background="{StaticResource PrimaryBlue}"
                     Command="{Binding AddUserCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
                     IsEnabled="{Binding IsNotLoading}"
                     Foreground="White" />
         </Grid>

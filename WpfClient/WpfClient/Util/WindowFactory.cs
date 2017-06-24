@@ -1,7 +1,5 @@
 ﻿using System.Windows;
 using Autofac;
-using WpfClient.View;
-using WpfClient.ViewModel;
 
 namespace WpfClient.Util
 {

@@ -1,10 +1,12 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.Reflection;
 using Autofac;
 using Prism.Events;
 using WpfClient.Util;
+using WpfClient.Util.Config;
 using WpfClient.View;
 using WpfClient.ViewModel;
-using WpfClient.Util.Config;
 using WpfCLient.DataAccess;
 
 namespace WpfClient
@@ -24,6 +26,8 @@ namespace WpfClient
             builder.RegisterType<HttpHandler>().As<IHttpHandler>();
             builder.RegisterType<WindowFactory<ChatWindow>>().AsSelf();
             builder.RegisterType<EventAggregator>().As<IEventAggregator>().SingleInstance();
+            builder.RegisterType<ChatSocketApi>().As<IChatSocketApi>();
+            builder.RegisterType<SocketMessageFactory>().As<ISocketMessageFactory>();
 
             var config = LoadAppConfig();
             builder.RegisterInstance(config).AsSelf();
@@ -33,8 +37,9 @@ namespace WpfClient
 
         private static Config LoadAppConfig()
         {
-            var executionAssemblyDir = System.Reflection.Assembly.GetExecutingAssembly().Location;
-            var configPath = Path.Combine(System.IO.Path.GetDirectoryName(executionAssemblyDir), "Config\\config.json");
+            var commandLineArgParser = new CommandLineArgParser(Environment.GetCommandLineArgs());
+            var executionAssemblyDir = Assembly.GetExecutingAssembly().Location;
+            var configPath = Path.Combine(Path.GetDirectoryName(executionAssemblyDir), $"Config\\{commandLineArgParser.Environment}\\config.json");
             var config = new ConfigLoader(configPath).Load();
             return config;
         }

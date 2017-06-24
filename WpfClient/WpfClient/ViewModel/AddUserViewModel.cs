@@ -1,10 +1,11 @@
-﻿using System.Windows.Input;
+﻿using System.Windows;
+using System.Windows.Input;
 using NLog;
 using Prism.Events;
 using WpfClient.Command;
-using WpfClient.Event;
 using WpfClient.Model;
 using WpfClient.Util;
+using WpfClient.Util.Event;
 using WpfClient.View;
 using WpfCLient.DataAccess;
 
@@ -60,21 +61,21 @@ namespace WpfClient.ViewModel
             this.chatWindowFactory = chatWindowFactory;
             this.eventAggregator = eventAggregator;
 
-            AddUserCommand = new DelegateCommand(o => { AddUser(); });
+            AddUserCommand = new DelegateCommand(o => { AddUser(o as Window); });
             IsNotLoading = true;
         }
 
-        private async void AddUser()
+        private async void AddUser(Window window)
         {
             IsNotLoading = false;
             var apiResponse = await userApi.AddUserAsync(Username);
             IsNotLoading = true;
-
             if (apiResponse.IsSuccessful())
             {
                 IsShowingErrorMessage = false;
                 chatWindowFactory.ShowWindow();
-                eventAggregator.GetEvent<CachedEvent<User>>().Publish(apiResponse.Body);
+                eventAggregator.GetEvent<UserAddedEvent>().Publish(apiResponse.Body);
+                window.Close();
                 Log.Info($"User with username [{Username}] added successfully.");
             }
             else

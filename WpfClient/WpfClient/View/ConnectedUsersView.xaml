@@ -12,11 +12,53 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0"
-                   Text="{Binding Heading, Converter={StaticResource StringToUpperCaseConverter}}"
+        <Border Grid.Row="0" BorderBrush="{StaticResource BorderColor}" BorderThickness="0 0 0 1" Padding="10">
+            <TextBlock  
+                Text="CONNECTED USERS"
                    Style="{StaticResource HeaderOne}"
                    TextAlignment="Center" />
-        <ListView Grid.Row="1" ItemsSource="{Binding ConnectedUsers}" />
+        </Border>
+        <ListView Grid.Row="1" ItemsSource="{Binding ConnectedUsers}" BorderThickness="0" BorderBrush="Transparent">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal" Margin="10px" VerticalAlignment="Center">
+                        <Rectangle Width="15px" Height="15px" Margin="0 0 10 0">
+                            <Rectangle.Style>
+                                <Style TargetType="{x:Type Rectangle}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsCurrentUser}" Value="True">
+                                            <Setter Property="Fill" Value="LimeGreen"></Setter>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding IsCurrentUser}" Value="False">
+                                            <Setter Property="Fill" Value="{StaticResource PrimaryBlue}"></Setter>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Rectangle.Style>
+                        </Rectangle>
+                        <TextBlock>
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsCurrentUser}" Value="True">
+                                            <Setter Property="Text" Value="{Binding User.Username, StringFormat='\{0\} (you)'}"></Setter>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding IsCurrentUser}" Value="False">
+                                            <Setter Property="Text" Value="{Binding User.Username}"></Setter>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Setter Property="Focusable" Value="False" />
+                </Style>
+            </ListView.ItemContainerStyle>
+        </ListView>
 
     </Grid>
 </UserControl>

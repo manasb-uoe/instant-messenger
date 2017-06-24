@@ -1,0 +1,4 @@
+﻿{
+  "ApiBaseUrl": "http://ec2-52-56-74-93.eu-west-2.compute.amazonaws.com:4567",
+  "ChatWebSocketEndpoint": "ws://ec2-52-56-74-93.eu-west-2.compute.amazonaws.com:4567/chat"
+}

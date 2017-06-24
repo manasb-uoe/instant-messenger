@@ -72,6 +72,9 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="websocket-sharp.clone, Version=1.0.2.39869, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\websocket-sharp.clone.3.0.0\lib\net45\websocket-sharp.clone.dll</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -83,7 +86,6 @@
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Command\DelegateCommand.cs" />
-    <Compile Include="Event\CachedEvent.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Util\WindowFactory.cs" />
     <Compile Include="ValueConverter\StringToUpperCaseConverter.cs" />
@@ -135,7 +137,10 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="Config\config.json">
+    <None Include="Config\prod\config.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Config\dev\config.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Config\NLog.config">

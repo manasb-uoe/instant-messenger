@@ -1,0 +1,4 @@
+﻿{
+  "ApiBaseUrl": "http://localhost:4567",
+  "ChatWebSocketEndpoint": "ws://localhost:4567/chat"
+}

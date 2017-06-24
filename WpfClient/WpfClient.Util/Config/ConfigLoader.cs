@@ -16,8 +16,8 @@ namespace WpfClient.Util.Config
         {
             using(var streamReader = new StreamReader(path))
             {
-                string json = streamReader.ReadToEnd();
-                var config = JsonConvert.DeserializeObject<Util.Config.Config>(json);
+                var json = streamReader.ReadToEnd();
+                var config = JsonConvert.DeserializeObject<Config>(json);
 
                 return config;
             }

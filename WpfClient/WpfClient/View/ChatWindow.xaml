@@ -5,14 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         xmlns:view="clr-namespace:WpfClient.View"
-        Title="ChatWindow" Height="300" Width="300">
+        Title="ChatWindow" Height="600" Width="900" WindowState="Maximized" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*"></ColumnDefinition>
-            <ColumnDefinition Width="8*"></ColumnDefinition>
+            <ColumnDefinition Width="48*" />
+            <ColumnDefinition Width="131*"/>
+            <ColumnDefinition Width="716*" />
         </Grid.ColumnDefinitions>
-        
-        <view:ConnectedUsersView Grid.Column="0" DataContext="{Binding ConnectedUsersViewModel}"/>
+        <Border Grid.Column="0" BorderBrush="{StaticResource BorderColor}" BorderThickness="0 0 1 0" Grid.ColumnSpan="2" Margin="0,0,0.111,-0.111">
+            <view:ConnectedUsersView DataContext="{Binding ConnectedUsersViewModel}" />
+        </Border>
     </Grid>
 </Window>
-

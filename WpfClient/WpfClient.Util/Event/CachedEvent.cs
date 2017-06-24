@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows.Documents;
 using Prism.Events;
+using WpfClient.Model;
 
-namespace WpfClient.Event
+namespace WpfClient.Util.Event
 {
     public class CachedEvent<T> : PubSubEvent<T>
     {
