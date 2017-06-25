@@ -29,7 +29,5 @@ namespace WpfClient.Model
         {
             return $"{nameof(Username)}: {Username}";
         }
-
-
     }
 }

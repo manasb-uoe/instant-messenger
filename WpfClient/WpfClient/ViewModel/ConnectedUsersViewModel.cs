@@ -9,19 +9,8 @@ namespace WpfClient.ViewModel
 {
     public class ConnectedUsersViewModel : ViewModelBase
     {
-        public User CurrentUser
-        {
-            get => currentUser;
-            set
-            {
-                currentUser = value;
-                OnPropertyChanged();
-            }
-        }
-
+        public User CurrentUser { get; private set; }
         public ObservableCollection<ConnectedUsersListViewItem> ConnectedUsers { get; }
-
-        private User currentUser;
 
         private static readonly ILogger Logger = LogManager.GetCurrentClassLogger();
 

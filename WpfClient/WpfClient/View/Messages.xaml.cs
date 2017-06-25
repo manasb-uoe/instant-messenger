@@ -1,17 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Collections.Specialized;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace WpfClient.View
 {
@@ -23,6 +11,16 @@ namespace WpfClient.View
         public Messages()
         {
             InitializeComponent();
+
+            // Automatically scroll to bottom of listview whenever a new item is added
+            (MessagesListView.Items as INotifyCollectionChanged).CollectionChanged +=
+                (sender, args) =>
+                {
+                    if (MessagesListView.Items.Count > 0)
+                    {
+                        MessagesListView.ScrollIntoView(MessagesListView.Items[MessagesListView.Items.Count - 1]);
+                    }
+                };
         }
     }
 }

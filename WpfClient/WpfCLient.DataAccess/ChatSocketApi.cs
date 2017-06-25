@@ -18,14 +18,14 @@ namespace WpfCLient.DataAccess
 {
     public class ChatSocketApi : IChatSocketApi
     {
-
         private static readonly ILogger Logger = LogManager.GetCurrentClassLogger();
         private readonly string webSocketEndPoint;
         private WebSocket ws;
         private readonly ISocketMessageFactory socketMessageFactory;
         private readonly IEventAggregator eventAggregator;
 
-        public ChatSocketApi(Config config, ISocketMessageFactory socketMessageFactory, IEventAggregator eventAggregator)
+        public ChatSocketApi(Config config, ISocketMessageFactory socketMessageFactory,
+            IEventAggregator eventAggregator)
         {
             webSocketEndPoint = config.ChatWebSocketEndpoint;
             this.socketMessageFactory = socketMessageFactory;
@@ -53,6 +53,13 @@ namespace WpfCLient.DataAccess
             return ws.Send(connectMessage);
         }
 
+        public Task<bool> SendChatMessage(User user, string messageText)
+        {
+            var chatMessage = socketMessageFactory.CreateChatMessage(user, messageText);
+            Logger.Info($"Sending chat message [{chatMessage}]");
+            return ws.Send(chatMessage);
+        }
+
         public void Dispose()
         {
             ws?.Dispose();
@@ -72,16 +79,30 @@ namespace WpfCLient.DataAccess
                 var jsonResponse = JObject.Parse(jsonResponseString);
                 var messageType = jsonResponse["messageType"].Value<string>();
 
+                var jsonData = jsonResponse["data"];
                 if (messageType.Equals(SocketMessageType.ConnectedUsers.Value))
                 {
-                    var users = JsonConvert.DeserializeObject<IEnumerable<User>>(jsonResponse["data"].ToString());
+                    var users = JsonConvert.DeserializeObject<IEnumerable<User>>(jsonData.ToString());
                     eventAggregator.GetEvent<ConnectedUsersEvent>().Publish(users.ToList());
+                }
+                else if (messageType.Equals(SocketMessageType.ChatMessage.Value))
+                {
+                    var chatMessage = ParseChatMessage(jsonData);
+                    eventAggregator.GetEvent<ChatMessageEvent>().Publish(chatMessage);
                 }
                 else
                 {
                     Logger.Error($"Invalid socket message type: [{messageType}]");
                 }
             });
+        }
+
+        private static ChatMessage ParseChatMessage(JToken jsonData)
+            {
+            var chatMessage = new ChatMessage(MessageSource.FromString(jsonData["source"].Value<string>()),
+                new User() {Username = jsonData["user"]["username"].Value<string>()},
+                jsonData["messageText"].Value<string>(), jsonData["timestamp"].Value<long>());
+            return chatMessage;
         }
 
         private Task OnError(ErrorEventArgs arg)

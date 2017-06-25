@@ -5,9 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfClient.View"
         mc:Ignorable="d"
-        Title="Instant Messenger"
+        Title="{StaticResource AppName}"
         Height="300"
-        Width="700">
+        Width="700"
+        WindowStartupLocation="CenterScreen">
     <Grid Margin="10"
           HorizontalAlignment="Center"
           VerticalAlignment="Center">

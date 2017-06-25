@@ -8,16 +8,16 @@ namespace WpfClient.ViewModel
 {
     public class ChatViewModel : ViewModelBase, IDisposable
     {
-
         public ConnectedUsersViewModel ConnectedUsersViewModel { get; }
+        public MessagesViewModel MessagesViewModel { get; }
         private readonly IChatSocketApi chatSocketApi;
-        private readonly IEventAggregator eventAggregator;
 
-        public ChatViewModel(ConnectedUsersViewModel connectedUsersViewModel, IChatSocketApi chatSocketApi, IEventAggregator eventAggregator)
+        public ChatViewModel(ConnectedUsersViewModel connectedUsersViewModel, MessagesViewModel messagesViewModel,
+            IChatSocketApi chatSocketApi, IEventAggregator eventAggregator)
         {
             ConnectedUsersViewModel = connectedUsersViewModel;
+            MessagesViewModel = messagesViewModel;
             this.chatSocketApi = chatSocketApi;
-            this.eventAggregator = eventAggregator;
 
             chatSocketApi.OpenSocketConnection();
             eventAggregator.GetEvent<UserAddedEvent>().Subscribe(OnUserAdded);

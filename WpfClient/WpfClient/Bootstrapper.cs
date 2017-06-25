@@ -18,15 +18,16 @@ namespace WpfClient
             var builder = new ContainerBuilder();
 
             builder.RegisterType<ConnectedUsersViewModel>().AsSelf();
-            builder.RegisterType<AddUserWindow>().AsSelf();
+            builder.RegisterType<MessagesViewModel>().AsSelf();
+;            builder.RegisterType<AddUserWindow>().AsSelf();
             builder.RegisterType<ChatViewModel>().AsSelf();
             builder.RegisterType<ChatWindow>().AsSelf();
             builder.RegisterType<AddUserViewModel>().AsSelf();
-            builder.RegisterType<UserApi>().As<IUserApi>();
+            builder.RegisterType<UserApi>().As<IUserApi>().SingleInstance();
             builder.RegisterType<HttpHandler>().As<IHttpHandler>();
             builder.RegisterType<WindowFactory<ChatWindow>>().AsSelf();
             builder.RegisterType<EventAggregator>().As<IEventAggregator>().SingleInstance();
-            builder.RegisterType<ChatSocketApi>().As<IChatSocketApi>();
+            builder.RegisterType<ChatSocketApi>().As<IChatSocketApi>().SingleInstance();
             builder.RegisterType<SocketMessageFactory>().As<ISocketMessageFactory>();
 
             var config = LoadAppConfig();
