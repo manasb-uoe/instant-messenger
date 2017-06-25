@@ -46,8 +46,6 @@ export class SocketMessageService {
         this.connectedUsers$.emit(message.data);
         break;
       case MessageType[MessageType.CHAT_MESSAGE]:
-        // Convert string to enum before emitting
-        message.data.source = MessageSource[message.data.source];
         this.chatMessages$.emit(message.data);
         break;
       default:
