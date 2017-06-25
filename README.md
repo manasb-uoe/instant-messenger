@@ -6,9 +6,10 @@ Instant messenger application implemented using [Spark Java](http://sparkjava.co
 - The native Windows client can be downloaded here: https://github.com/enthusiast94/instant-messenger/raw/master/InstantMessenger.rar
 
 ## Screenshots
-![Login screen](https://github.com/enthusiast94/instant-messenger/blob/master/screenshots/2.png)
-![Chat screen](https://github.com/enthusiast94/instant-messenger/blob/master/screenshots/1.png)
-
+<p align="center">
+  <img src="https://github.com/enthusiast94/instant-messenger/blob/master/screenshots/2.png" width="650"/>
+  <img src="https://github.com/enthusiast94/instant-messenger/blob/master/screenshots/1.png"/>
+</p>
 ## How to get started?
 ### Start web client: 
 Navigate to `client` directory and run the following commands:
