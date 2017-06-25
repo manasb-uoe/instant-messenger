@@ -44,7 +44,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   }
 
   public isSystemMessage(chatMessage: ChatMessage) {
-    return chatMessage.source === MessageSource.SYSTEM;
+    return chatMessage.source === MessageSource[MessageSource.SYSTEM];
   }
 
   public onSendButtonClick(event: Event): void {
