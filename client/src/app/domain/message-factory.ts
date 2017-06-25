@@ -17,7 +17,7 @@ export class MessageFactory {
   }
 
   public static createChatMessage(user: User, messageText: string): string {
-    const chatMessage = new ChatMessage(MessageSource.USER, user, messageText, Date.now());
+    const chatMessage = new ChatMessage(MessageSource[MessageSource.USER], user, messageText, Date.now());
     return JSON.stringify({
       messageType: MessageType[MessageType.CHAT_MESSAGE],
       data: chatMessage
