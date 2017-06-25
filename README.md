@@ -3,7 +3,7 @@
 
 Instant messenger application implemented using [Spark Java](http://sparkjava.com/), [Angular 2](https://angular.io/) and [WPF](https://docs.microsoft.com/en-us/dotnet/framework/wpf/). 
 - The application is hosted on an AWS EC2 instance, and can be accessed at: http://ec2-52-56-74-93.eu-west-2.compute.amazonaws.com:4200.
-- The native Windows client can be downloaded here: https://github.com/enthusiast94/instant-messenger/raw/master/InstantMessenger.rar
+- The native Windows client can be downloaded here: https://github.com/enthusiast94/instant-messenger/raw/master/WpfClient/InstantMessenger.rar
 
 ## Screenshots
 <p>
