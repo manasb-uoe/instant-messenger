@@ -5,6 +5,10 @@ Instant messenger application implemented using [Spark Java](http://sparkjava.co
 - The application is hosted on an AWS EC2 instance, and can be accessed at: http://ec2-52-56-74-93.eu-west-2.compute.amazonaws.com:4200.
 - The native Windows client can be downloaded here: https://github.com/enthusiast94/instant-messenger/raw/master/InstantMessenger.rar
 
+##Screenshots
+![Login screen](https://github.com/enthusiast94/instant-messenger/blob/master/screenshots/2.png)
+![Chat screen](https://github.com/enthusiast94/instant-messenger/blob/master/screenshots/1.png)
+
 ## How to get started?
 ### Start web client: 
 Navigate to `client` directory and run the following commands:
