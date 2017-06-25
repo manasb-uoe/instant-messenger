@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WpfClient.DataAccess.Tests</RootNamespace>
     <AssemblyName>WpfClient.DataAccess.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -61,7 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WpfCLient.DataAccess\WpfCLient.DataAccess.csproj">
-      <Project>{E53009FC-06F6-4420-B61B-626DC35392B4}</Project>
+      <Project>{e53009fc-06f6-4420-b61b-626dc35392b4}</Project>
       <Name>WpfCLient.DataAccess</Name>
     </ProjectReference>
     <ProjectReference Include="..\WpfClient.Model\WpfClient.Model.csproj">
@@ -71,10 +72,6 @@
     <ProjectReference Include="..\WpfClient.Util\WpfClient.Util.csproj">
       <Project>{4E6864BF-61E5-4893-AD90-46ADFA0CB0CD}</Project>
       <Name>WpfClient.Util</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\WpfClient\WpfClient.UI.csproj">
-      <Project>{08CCA7A8-4E43-42E4-BD8A-37EB2A7E7295}</Project>
-      <Name>WpfClient.UI</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

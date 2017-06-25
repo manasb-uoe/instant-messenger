@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Navigation;
 using WpfClient.ViewModel;
 
 namespace WpfClient.View
@@ -16,6 +17,11 @@ namespace WpfClient.View
 
             this.addUserViewModel = addUserViewModel;
             DataContext = addUserViewModel;
+        }
+
+        private void Hyperlink_OnRequestNavigate(object sender, RequestNavigateEventArgs e)
+        {
+            System.Diagnostics.Process.Start(e.Uri.ToString());
         }
     }
 }

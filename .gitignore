@@ -1,3 +1,5 @@
 .idea/
 Debug/
 packages/
+Release/
+/WpfClient/WpfClient/WpfClient.UI_TemporaryKey.pfx

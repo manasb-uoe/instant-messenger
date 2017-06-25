@@ -30,9 +30,10 @@
                    FontWeight="Light" />
 
         <TextBlock Grid.Row="1"
-                   Text="View source on Github"
                    FontSize="12px"
-                   FontWeight="Regular" />
+                   FontWeight="Regular">
+            <Hyperlink NavigateUri="https://github.com/enthusiast94/instant-messenger" RequestNavigate="Hyperlink_OnRequestNavigate">View source on Github</Hyperlink>
+        </TextBlock>
 
         <TextBlock Grid.Row="2"
                    Text="Get started by choosing a nickname:"
